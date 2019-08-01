@@ -1,34 +1,64 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using ObjectMapper.Common.Attribute;
+using ObjectMapper.Common.Helper;
 
 namespace ObjectMapper.AdoNetToModel
 {
     public static class Mapper
     {
         /// <summary>
+        /// 特定欄位轉換
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="dataRow"></param>
+        /// <param name="columnName"></param>
+        /// <returns></returns>
+        public static T MapToObject<T>(this DataRow dataRow, string columnName)
+        {
+            T result;
+            try
+            {
+                var type = typeof(T);
+                var typeConverter = TypeDescriptor.GetConverter(type);
+                var value = typeConverter.ConvertFromString(dataRow[columnName].ToString());
+                result = (T) value;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// 資料列轉換單一物件
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="dataRow"></param>
         /// <returns></returns>
-        public static T MapToModel<T>(this DataRow dataRow) where T : new()
+        public static T MapToModel<T>(this DataRow dataRow) where T : class
         {
-            var result = new T();
+            var result = Activator.CreateInstance<T>();
             var type = typeof(T);
             foreach (var property in type.GetProperties())
             {
                 try
                 {
-                    var fieldName = property.Name;
+                    var mapName = property.Name;
                     var colAttrs = property.GetCustomAttributes(typeof(MapSettingAttribute), false);
                     var isIgnore = false;
                     if (colAttrs.Any())
                     {
                         var mapSetting = (MapSettingAttribute) colAttrs.First();
-                        fieldName = mapSetting.Name;
+                        if (!string.IsNullOrWhiteSpace(mapSetting.Name))
+                        {
+                            mapName = mapSetting.Name;
+                        }
                         isIgnore = mapSetting.Ignore;
                     }
 
@@ -36,14 +66,7 @@ namespace ObjectMapper.AdoNetToModel
                     {
                         continue;
                     }
-                    object value = default(T);
-                    if (dataRow.Table.Columns.Contains(fieldName))
-                    {
-                        var typeConverter = TypeDescriptor.GetConverter(property.PropertyType);
-                        value = typeConverter.
-                            ConvertFromString(dataRow[fieldName].ToString());
-                    }
-                    property.SetValue(result, value);
+                    property.SetValue(result, property.ConvertValueFromDataRow(dataRow, mapName));
                 }
                 catch
                 {
@@ -60,7 +83,7 @@ namespace ObjectMapper.AdoNetToModel
         /// <typeparam name="T"></typeparam>
         /// <param name="dataTable"></param>
         /// <returns></returns>
-        public static List<T> MapToList<T>(this DataTable dataTable) where T : new()
+        public static List<T> MapToList<T>(this DataTable dataTable) where T : class
         {
             var result = new List<T>();
             foreach (DataRow dr in dataTable.Rows)
