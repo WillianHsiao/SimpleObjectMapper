@@ -22,6 +22,18 @@ namespace Geo.Grid.Common.Mapper
         }
 
         /// <summary>
+        /// 資料表轉換為單一物件陣列
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="dataTable"></param>
+        /// <param name="columnName"></param>
+        /// <returns></returns>
+        public static List<T> ToList<T>(this DataTable dataTable, string columnName)
+        {
+            return dataTable.MapToList<T>(columnName);
+        }
+
+        /// <summary>
         /// 資料列轉換成物件
         /// </summary>
         /// <typeparam name="T">物件型別</typeparam>

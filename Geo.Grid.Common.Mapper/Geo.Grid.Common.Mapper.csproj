@@ -46,6 +46,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ObjectMapper.Common\ObjectMapper.Common.csproj">
+      <Project>{b6b993c3-89ba-4679-a92c-85de68991df0}</Project>
+      <Name>ObjectMapper.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ObjectMapper.DataTableToModel\ObjectMapper.AdoNetToModel.csproj">
       <Project>{35D0245F-D253-4C6B-B1BF-654C19953942}</Project>
       <Name>ObjectMapper.AdoNetToModel</Name>

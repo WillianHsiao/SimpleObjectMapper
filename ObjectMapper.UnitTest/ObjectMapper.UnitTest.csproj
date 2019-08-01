@@ -47,13 +47,35 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdoNetToModelTest.cs" />
+    <Compile Include="Helper\TestHelper.cs" />
+    <Compile Include="ModelToModelTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestModel\CustomNameModel.cs" />
+    <Compile Include="TestModel\IgnoreModel.cs" />
+    <Compile Include="TestModel\MixModel.cs" />
+    <Compile Include="TestModel\SourceModel.cs" />
+    <Compile Include="TestModel\TargetModel.cs" />
+    <Compile Include="TestModel\WrongNameModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Geo.Grid.Common.Mapper\Geo.Grid.Common.Mapper.csproj">
+      <Project>{ce74e26b-ca4b-40c6-a014-2bdc8dc49652}</Project>
+      <Name>Geo.Grid.Common.Mapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ObjectMapper.Common\ObjectMapper.Common.csproj">
+      <Project>{B6B993C3-89BA-4679-A92C-85DE68991DF0}</Project>
+      <Name>ObjectMapper.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DataSource\" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

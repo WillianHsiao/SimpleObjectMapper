@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using ObjectMapper.Common.Attribute;
+using ObjectMapper.Common.Exception;
 using ObjectMapper.Common.Helper;
 
 namespace ObjectMapper.AdoNetToModel
@@ -22,14 +23,37 @@ namespace ObjectMapper.AdoNetToModel
             T result;
             try
             {
+                if (!dataRow.Table.Columns.Contains(columnName))
+                {
+                    throw new WrongNameException();
+                }
                 var type = typeof(T);
                 var typeConverter = TypeDescriptor.GetConverter(type);
                 var value = typeConverter.ConvertFromString(dataRow[columnName].ToString());
                 result = (T) value;
             }
-            catch(Exception ex)
+            catch(WrongNameException ex)
             {
+                ex.TargetPropertyName = columnName;
                 throw ex;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 轉為單一屬性的陣列
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="dataTable"></param>
+        /// <param name="columnName"></param>
+        /// <returns></returns>
+        public static List<T> MapToList<T>(this DataTable dataTable, string columnName)
+        {
+            var result = new List<T>();
+            foreach (DataRow dataRow in dataTable.Rows)
+            {
+                result.Add(dataRow.MapToObject<T>(columnName));
             }
 
             return result;

@@ -3,11 +3,11 @@
     /// <summary>
     /// 名稱設定錯誤例外
     /// </summary>
-    public class NameMapException : System.Exception
+    public class WrongNameException : System.Exception
     {
-        public NameMapException() : base() { }
+        public WrongNameException() : base() { }
 
-        public NameMapException(string message) : base(message) { }
+        public WrongNameException(string message) : base(message) { }
 
         /// <summary>
         /// 目標型別名稱

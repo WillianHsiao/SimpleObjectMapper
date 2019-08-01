@@ -8,16 +8,15 @@ namespace ObjectMapper.ModelToModel
     public static class Mapper
     {
         /// <summary>
-        /// 
+        /// 執行物件轉換
         /// </summary>
-        /// <typeparam name="TSource">來源型別</typeparam>
         /// <typeparam name="TTarget">目標型別</typeparam>
         /// <param name="source"></param>
         /// <returns></returns>
-        public static TTarget Map<TSource, TTarget>(this TSource source) where TSource : class where TTarget : class
+        public static TTarget Map<TTarget>(this object source) where TTarget : class
         {
             var result = Activator.CreateInstance<TTarget>();
-            var sourceType = typeof(TSource);
+            var sourceType = source.GetType();
             var targetType = typeof(TTarget);
             foreach (var targetProp in targetType.GetProperties())
             {
@@ -48,7 +47,7 @@ namespace ObjectMapper.ModelToModel
                 }
                 else
                 {
-                    throw new NameMapException
+                    throw new WrongNameException
                     {
                         TargetPropertyName = targetProp.Name
                     };
