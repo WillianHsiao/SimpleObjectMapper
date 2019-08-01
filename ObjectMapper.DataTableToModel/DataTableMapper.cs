@@ -9,7 +9,7 @@ using ObjectMapper.Common.Helper;
 
 namespace ObjectMapper.AdoNetToModel
 {
-    public static class Mapper
+    public static class DataTableMapper
     {
         /// <summary>
         /// 特定欄位轉換
@@ -27,12 +27,23 @@ namespace ObjectMapper.AdoNetToModel
                 {
                     throw new WrongNameException();
                 }
+
                 var type = typeof(T);
                 var typeConverter = TypeDescriptor.GetConverter(type);
-                var value = typeConverter.ConvertFromString(dataRow[columnName].ToString());
-                result = (T) value;
+                try
+                {
+                    var value = typeConverter.ConvertFromString(dataRow[columnName].ToString());
+                    result = (T) value;
+                }
+                catch (NotSupportedException ex)
+                {
+                    var wrongTypeEx = new WrongTypeException();
+                    wrongTypeEx.SourcePropertyType = dataRow[columnName].GetType();
+                    wrongTypeEx.TargetPropertyType = type;
+                    throw wrongTypeEx;
+                }
             }
-            catch(WrongNameException ex)
+            catch (WrongNameException ex)
             {
                 ex.TargetPropertyName = columnName;
                 throw ex;

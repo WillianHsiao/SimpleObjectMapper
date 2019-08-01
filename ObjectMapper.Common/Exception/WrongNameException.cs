@@ -25,10 +25,8 @@
                 {
                     return base.Message;
                 }
-                else
-                {
-                    return "找不到該名稱對應";
-                }
+
+                return "找不到該名稱對應";
             }
         }
     }

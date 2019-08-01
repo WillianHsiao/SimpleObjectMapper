@@ -1,6 +1,8 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Data;
 using System.Reflection;
+using ObjectMapper.Common.Exception;
 
 namespace ObjectMapper.Common.Helper
 {
@@ -8,21 +10,39 @@ namespace ObjectMapper.Common.Helper
     {
         public static object ConvertValueFromDataRow(this PropertyInfo property, DataRow dataRow, string customName = null)
         {
-            var typeConverter = TypeDescriptor.GetConverter(property.PropertyType);
-            if (customName != null)
+            object result = null;
+            if (!string.IsNullOrWhiteSpace(customName))
             {
-                if (dataRow.Table.Columns.Contains(customName))
+                result = ConvertValue(property.PropertyType, dataRow, customName);
+            }
+
+            if (result == null)
+            {
+                result = ConvertValue(property.PropertyType, dataRow, property.Name);
+            }
+
+            return result;
+        }
+
+        private static object ConvertValue(Type type, DataRow dataRow, string columnName)
+        {
+            var typeConverter = TypeDescriptor.GetConverter(type);
+            try
+            {
+                if (dataRow.Table.Columns.Contains(columnName))
                 {
-                    return typeConverter.ConvertFromString(dataRow[customName].ToString());
+                    return typeConverter.ConvertFromString(dataRow[columnName].ToString());
                 }
-            }
 
-            if (dataRow.Table.Columns.Contains(property.Name))
+                return null;
+            }
+            catch (NotSupportedException ex)
             {
-                return typeConverter.ConvertFromString(dataRow[property.Name].ToString());
+                var wrongTypeEx = new WrongTypeException();
+                wrongTypeEx.SourcePropertyType = dataRow[columnName].GetType();
+                wrongTypeEx.TargetPropertyType = type;
+                throw wrongTypeEx;
             }
-
-            return null;
         }
     }
 }
