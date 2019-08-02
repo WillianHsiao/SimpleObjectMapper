@@ -5,8 +5,15 @@
     /// </summary>
     public class WrongNameException : System.Exception
     {
+        /// <summary>
+        /// 建構子
+        /// </summary>
         public WrongNameException() : base() { }
 
+        /// <summary>
+        /// 建構子自訂訊息
+        /// </summary>
+        /// <param name="message">訊息</param>
         public WrongNameException(string message) : base(message) { }
 
         /// <summary>

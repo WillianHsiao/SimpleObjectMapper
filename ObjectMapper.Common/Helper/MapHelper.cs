@@ -10,6 +10,29 @@ namespace ObjectMapper.Common.Helper
     public static class MapHelper
     {
         /// <summary>
+        /// 物件轉物件
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="T"></param>
+        /// <returns></returns>
+        public static T ConvertValue<T>(this object source)
+        {
+            var targetType = typeof(T);
+            var typeConverter = TypeDescriptor.GetConverter(targetType);
+            try
+            {
+                return (T) typeConverter.ConvertFromString(source.ToString());
+            }
+            catch (FormatException ex)
+            {
+                var wrongTypeEx = new WrongTypeException();
+                wrongTypeEx.SourcePropertyType = source.GetType();
+                wrongTypeEx.TargetPropertyType = targetType;
+                throw wrongTypeEx;
+            }
+        }
+
+        /// <summary>
         /// 資料列轉換特定欄位(自訂名稱)
         /// </summary>
         /// <param name="property"></param>
@@ -39,7 +62,7 @@ namespace ObjectMapper.Common.Helper
         /// <param name="dataRow"></param>
         /// <param name="columnName"></param>
         /// <returns></returns>
-        private static object ConvertValue(this DataRow dataRow, Type type, string columnName)
+        public static object ConvertValue(this DataRow dataRow, Type type, string columnName)
         {
             var typeConverter = TypeDescriptor.GetConverter(type);
             try
@@ -85,7 +108,7 @@ namespace ObjectMapper.Common.Helper
         /// <param name="type"></param>
         /// <param name="columnName"></param>
         /// <returns></returns>
-        private static object ConvertValue(this DbDataReader dataReader, Type type, string columnName)
+        public static object ConvertValue(this DbDataReader dataReader, Type type, string columnName)
         {
             var typeConverter = TypeDescriptor.GetConverter(type);
             var colIndex = dataReader.GetOrdinal(columnName);
@@ -113,7 +136,7 @@ namespace ObjectMapper.Common.Helper
         /// <param name="dr"></param>
         /// <param name="columnName"></param>
         /// <returns></returns>
-        private static bool HasColumn(this IDataRecord dr, string columnName)
+        public static bool HasColumn(this DbDataReader dr, string columnName)
         {
             for (var i = 0; i < dr.FieldCount; i++)
             {

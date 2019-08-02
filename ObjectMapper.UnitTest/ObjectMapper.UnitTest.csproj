@@ -58,8 +58,10 @@
     <Compile Include="TestModel\IgnoreModel.cs" />
     <Compile Include="TestModel\MixModel.cs" />
     <Compile Include="TestModel\SourceModel.cs" />
+    <Compile Include="TestModel\SubModel.cs" />
     <Compile Include="TestModel\TargetModel.cs" />
     <Compile Include="TestModel\WrongNameModel.cs" />
+    <Compile Include="ValueToValueTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

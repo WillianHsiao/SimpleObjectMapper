@@ -4,8 +4,15 @@ namespace ObjectMapper.Common.Exception
 {
     public class WrongTypeException : System.Exception
     {
+        /// <summary>
+        /// 建構子
+        /// </summary>
         public WrongTypeException() : base() { }
 
+        /// <summary>
+        /// 建構子自訂訊息
+        /// </summary>
+        /// <param name="message">訊息</param>
         public WrongTypeException(string message) : base(message) { }
 
         /// <summary>
