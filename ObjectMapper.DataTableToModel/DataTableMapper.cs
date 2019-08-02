@@ -35,7 +35,7 @@ namespace ObjectMapper.AdoNetToModel
                     var value = typeConverter.ConvertFromString(dataRow[columnName].ToString());
                     result = (T) value;
                 }
-                catch (NotSupportedException ex)
+                catch (FormatException ex)
                 {
                     var wrongTypeEx = new WrongTypeException();
                     wrongTypeEx.SourcePropertyType = dataRow[columnName].GetType();

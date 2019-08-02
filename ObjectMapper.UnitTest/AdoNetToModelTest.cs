@@ -94,6 +94,7 @@ namespace ObjectMapper.UnitTest
             }
         }
 
+        [TestMethod]
         public void AdoNet_單一值_錯誤型別()
         {
             var dataRow = sourceDataTable.Rows[0];
@@ -101,9 +102,10 @@ namespace ObjectMapper.UnitTest
             {
                 dataRow.ToSingleValue<bool>("DecimalProp");
             }
-            catch (WrongNameException ex)
+            catch (WrongTypeException ex)
             {
-                Assert.IsTrue(ex.TargetPropertyName == "DecimalPropWW");
+                Assert.IsTrue(ex.SourcePropertyType == typeof(decimal));
+                Assert.IsTrue(ex.TargetPropertyType == typeof(bool));
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using Geo.Grid.Common.Mapper;
+﻿using System;
+using Geo.Grid.Common.Mapper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ObjectMapper.Common.Exception;
 using ObjectMapper.UnitTest.TestModel;
@@ -77,6 +78,14 @@ namespace ObjectMapper.UnitTest
             Assert.AreEqual(0, result.CustomLongProp);
             Assert.AreEqual(source.BooleanProp, result.BooleanProp);
             Assert.AreEqual(source.StringProp, result.CustomStringProp);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NullReferenceException))]
+        public void ModelToModel_來源是Null()
+        {
+            SourceModel nullSource = null;
+            nullSource.ToModel<TargetModel>();
         }
     }
 }
