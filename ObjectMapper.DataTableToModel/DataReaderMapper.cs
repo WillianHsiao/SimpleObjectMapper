@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
 using ObjectMapper.Common.Attribute;
@@ -231,6 +232,10 @@ namespace ObjectMapper.AdoNetToModel
             var type = typeof(T);
             foreach (var property in type.GetProperties())
             {
+                if (!property.CanWrite)
+                {
+                    continue;
+                }
                 var mapName = property.Name;
                 var colAttrs = property.GetCustomAttributes(typeof(MapSettingAttribute), false);
                 var isIgnore = false;

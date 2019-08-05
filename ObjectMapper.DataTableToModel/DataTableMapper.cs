@@ -222,6 +222,10 @@ namespace ObjectMapper.AdoNetToModel
             var type = typeof(T);
             foreach (var property in type.GetProperties())
             {
+                if (!property.CanWrite)
+                {
+                    continue;
+                }
                 var mapName = property.Name;
                 var colAttrs = property.GetCustomAttributes(typeof(MapSettingAttribute), false);
                 var isIgnore = false;

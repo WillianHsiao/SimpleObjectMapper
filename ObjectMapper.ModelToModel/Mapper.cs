@@ -103,6 +103,10 @@ namespace ObjectMapper.ModelToModel
             var targetType = typeof(T);
             foreach (var targetProp in targetType.GetProperties())
             {
+                if (!targetProp.CanWrite)
+                {
+                    continue;
+                }
                 var mapName = targetProp.Name;
                 var colAttrs = targetProp.GetCustomAttributes(typeof(MapSettingAttribute), false);
                 var isIgnore = false;
