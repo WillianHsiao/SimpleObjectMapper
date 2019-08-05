@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ObjectMapper.Common.Attribute;
-using ObjectMapper.Common.Helper;
 
 namespace ObjectMapper.ModelToModel
 {
@@ -55,62 +54,6 @@ namespace ObjectMapper.ModelToModel
         public static async Task<List<T>> MapToListAsync<T>(this object sourceList) where T : class
         {
             return await sourceList.MapToModelListAsync<T>();
-        }
-
-        /// <summary>
-        /// 單元素陣列轉換
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="sourceList"></param>
-        /// <returns></returns>
-        private static List<T> MapToSingleValueList<T>(this object sourceList)
-        {
-            var result = new List<T>();
-            foreach (var obj in (IList)sourceList)
-            {
-                result.Add(obj.MapToSingleValue<T>());
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// 單元素陣列轉換(非同步)
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="sourceList"></param>
-        /// <returns></returns>
-        private static async Task<List<T>> MapToSingleValueListAsync<T>(this object sourceList)
-        {
-            var result = new List<T>();
-            foreach (var obj in (IList)sourceList)
-            {
-                result.Add(await obj.MapToSingleValueAsync<T>());
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// 物件之間轉換
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        private static T MapToSingleValue<T>(this object source)
-        {
-            return source.ConvertValue<T>();
-        }
-
-        /// <summary>
-        /// 物件之間轉換(非同步)
-        /// </summary>
-        /// <typeparam name="T">目標型別</typeparam>
-        /// <param name="source">來源陣列</param>
-        /// <returns></returns>
-        private static async Task<T> MapToSingleValueAsync<T>(this object source)
-        {
-            return await Task.FromResult(source.MapToSingleValue<T>());
         }
 
         /// <summary>

@@ -12,7 +12,8 @@ namespace ObjectMapper.UnitTest
     [TestClass]
     public class DataReaderToModelTest
     {
-        private static DataTable sourceDataTable = new DataTable();
+
+        private static DataTable _sourceDataTable = new DataTable();
 
         /// <summary>
         /// 每支單元測試執行前要做的事
@@ -20,9 +21,10 @@ namespace ObjectMapper.UnitTest
         [TestInitialize]
         public void StartUp()
         {
-            var sourceList = new List<SourceModel>
+            var sourceList = new List<SourceModel>();
+            for (var i = 0; i < 10; i++)
             {
-                new SourceModel
+                sourceList.Add(new SourceModel
                 {
                     DecimalProp = 99999,
                     DoubleProp = 88888,
@@ -30,51 +32,15 @@ namespace ObjectMapper.UnitTest
                     LongProp = 66666,
                     BooleanProp = false,
                     StringProp = "Test1"
-                },
-                new SourceModel
-                {
-                    DecimalProp = 99999,
-                    DoubleProp = 88888,
-                    IntegerProp = 77777,
-                    LongProp = 66666,
-                    BooleanProp = false,
-                    StringProp = "Test1"
-                },
-                new SourceModel
-                {
-                    DecimalProp = 99999,
-                    DoubleProp = 88888,
-                    IntegerProp = 77777,
-                    LongProp = 66666,
-                    BooleanProp = false,
-                    StringProp = "Test1"
-                },
-                new SourceModel
-                {
-                    DecimalProp = 99999,
-                    DoubleProp = 88888,
-                    IntegerProp = 77777,
-                    LongProp = 66666,
-                    BooleanProp = false,
-                    StringProp = "Test1"
-                },
-                new SourceModel
-                {
-                    DecimalProp = 99999,
-                    DoubleProp = 88888,
-                    IntegerProp = 77777,
-                    LongProp = 66666,
-                    BooleanProp = false,
-                    StringProp = "Test1"
-                },
-            };
-            sourceDataTable = sourceList.ToDataTable();
+                });
+            }
+            _sourceDataTable = sourceList.ToDataTable();
         }
 
         [TestMethod]
         public void DataReader_單一值()
         {
-            var reader = sourceDataTable.CreateDataReader();
+            var reader = _sourceDataTable.CreateDataReader();
             var result = reader.ToValue<decimal>("DecimalProp");
             Assert.AreEqual(99999, result);
         }
@@ -82,7 +48,7 @@ namespace ObjectMapper.UnitTest
         [TestMethod]
         public void DataReader_單一值_錯誤欄位名稱()
         {
-            var reader = sourceDataTable.CreateDataReader();
+            var reader = _sourceDataTable.CreateDataReader();
             try
             {
                 reader.ToValue<decimal>("DecimalWW");
@@ -94,9 +60,24 @@ namespace ObjectMapper.UnitTest
         }
 
         [TestMethod]
+        [ExpectedException(typeof(NameMissException))]
+        public void DataReader_單一值_沒給欄位名稱()
+        {
+            var reader = _sourceDataTable.CreateDataReader();
+            try
+            {
+                reader.ToValue<decimal>(null);
+            }
+            catch (WrongNameException ex)
+            {
+                Assert.IsTrue(ex.TargetPropertyName == "DecimalWW");
+            }
+        }
+
+        [TestMethod]
         public void DataReader_單一值_錯誤型別()
         {
-            var reader = sourceDataTable.CreateDataReader();
+            var reader = _sourceDataTable.CreateDataReader();
             try
             {
                 reader.ToValue<bool>("DecimalProp");
@@ -111,15 +92,38 @@ namespace ObjectMapper.UnitTest
         [TestMethod]
         public void DataReader_單一元素陣列()
         {
-            var reader = sourceDataTable.CreateDataReader();
+            var reader = _sourceDataTable.CreateDataReader();
             var result = reader.ToList<decimal>("DecimalProp");
-            Assert.AreEqual(sourceDataTable.Rows.Count, result.Count);
+            Assert.AreEqual(_sourceDataTable.Rows.Count, result.Count);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(WrongTypeException))]
+        public void DataReader_單一元素陣列_錯誤型別()
+        {
+            var reader = _sourceDataTable.CreateDataReader();
+            var result = reader.ToList<DateTime>("DecimalProp");
+            Assert.AreEqual(_sourceDataTable.Rows.Count, result.Count);
+        }
+
+        [TestMethod]
+        public void DataReader_單一元素陣列_錯誤欄位名稱()
+        {
+            var reader = _sourceDataTable.CreateDataReader();
+            try
+            {
+                reader.ToList<decimal>("DecimalWW");
+            }
+            catch (WrongNameException ex)
+            {
+                Assert.IsTrue(ex.TargetPropertyName == "DecimalWW");
+            }
         }
 
         [TestMethod]
         public void DataReader_類別物件()
         {
-            var reader = sourceDataTable.CreateDataReader();
+            var reader = _sourceDataTable.CreateDataReader();
             var result = reader.ToModel<TargetModel>();
             Assert.AreEqual(99999, result.DecimalProp);
             Assert.AreEqual(88888, result.DoubleProp);
@@ -132,9 +136,9 @@ namespace ObjectMapper.UnitTest
         [TestMethod]
         public void DataReader_類別物件陣列()
         {
-            var reader = sourceDataTable.CreateDataReader();
+            var reader = _sourceDataTable.CreateDataReader();
             var result = reader.ToModelList<TargetModel>();
-            Assert.AreEqual(sourceDataTable.Rows.Count, result.Count);
+            Assert.AreEqual(_sourceDataTable.Rows.Count, result.Count);
         }
     }
 }
