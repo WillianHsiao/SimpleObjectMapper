@@ -62,7 +62,7 @@ namespace ObjectMapper.ModelToModel
         /// <typeparam name="T">目標型別</typeparam>
         /// <param name="sourceList">來源陣列</param>
         /// <returns></returns>
-        private static List<T> MapToModelList<T>(this object sourceList)
+        private static List<T> MapToModelList<T>(this object sourceList) where T : class
         {
             var result = new List<T>();
             foreach (var obj in (IList)sourceList)
@@ -79,7 +79,7 @@ namespace ObjectMapper.ModelToModel
         /// <typeparam name="T">目標型別</typeparam>
         /// <param name="sourceList">來源陣列</param>
         /// <returns></returns>
-        private static async Task<List<T>> MapToModelListAsync<T>(this object sourceList)
+        private static async Task<List<T>> MapToModelListAsync<T>(this object sourceList) where T : class
         {
             var result = new List<T>();
             foreach (var obj in (IList)sourceList)
@@ -96,7 +96,7 @@ namespace ObjectMapper.ModelToModel
         /// <typeparam name="T">目標型別</typeparam>
         /// <param name="source"></param>
         /// <returns></returns>
-        private static T MapToModel<T>(this object source)
+        private static T MapToModel<T>(this object source) where T : class
         {
             var result = Activator.CreateInstance<T>();
             var sourceType = source.GetType();
@@ -139,7 +139,7 @@ namespace ObjectMapper.ModelToModel
         /// <typeparam name="T">目標型別</typeparam>
         /// <param name="source"></param>
         /// <returns></returns>
-        private static async Task<T> MapToModelAsync<T>(this object source)
+        private static async Task<T> MapToModelAsync<T>(this object source) where T : class
         {
             return await Task.FromResult(source.MapToModel<T>());
         }

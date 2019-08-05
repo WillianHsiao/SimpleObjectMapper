@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Threading.Tasks;
 using Geo.Grid.Common.Mapper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ObjectMapper.Common.Exception;
@@ -46,6 +47,14 @@ namespace ObjectMapper.UnitTest
         }
 
         [TestMethod]
+        public async Task DataReader_單一值_非同步()
+        {
+            var reader = _sourceDataTable.CreateDataReader();
+            var result = await reader.ToValueAsync<decimal>("DecimalProp");
+            Assert.AreEqual(99999, result);
+        }
+
+        [TestMethod]
         public void DataReader_單一值_錯誤欄位名稱()
         {
             var reader = _sourceDataTable.CreateDataReader();
@@ -64,14 +73,7 @@ namespace ObjectMapper.UnitTest
         public void DataReader_單一值_沒給欄位名稱()
         {
             var reader = _sourceDataTable.CreateDataReader();
-            try
-            {
-                reader.ToValue<decimal>(null);
-            }
-            catch (WrongNameException ex)
-            {
-                Assert.IsTrue(ex.TargetPropertyName == "DecimalWW");
-            }
+            reader.ToValue<decimal>(null);
         }
 
         [TestMethod]
@@ -96,13 +98,12 @@ namespace ObjectMapper.UnitTest
             var result = reader.ToList<decimal>("DecimalProp");
             Assert.AreEqual(_sourceDataTable.Rows.Count, result.Count);
         }
-
+        
         [TestMethod]
-        [ExpectedException(typeof(WrongTypeException))]
-        public void DataReader_單一元素陣列_錯誤型別()
+        public async Task DataReader_單一元素陣列_非同步()
         {
             var reader = _sourceDataTable.CreateDataReader();
-            var result = reader.ToList<DateTime>("DecimalProp");
+            var result = await reader.ToListAsync<decimal>("DecimalProp");
             Assert.AreEqual(_sourceDataTable.Rows.Count, result.Count);
         }
 
@@ -121,6 +122,23 @@ namespace ObjectMapper.UnitTest
         }
 
         [TestMethod]
+        [ExpectedException(typeof(NameMissException))]
+        public void DataReader_單一元素陣列_沒給欄位名稱()
+        {
+            var reader = _sourceDataTable.CreateDataReader();
+            reader.ToList<decimal>(null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(WrongTypeException))]
+        public void DataReader_單一元素陣列_錯誤型別()
+        {
+            var reader = _sourceDataTable.CreateDataReader();
+            var result = reader.ToList<DateTime>("DecimalProp");
+            Assert.AreEqual(_sourceDataTable.Rows.Count, result.Count);
+        }
+
+        [TestMethod]
         public void DataReader_類別物件()
         {
             var reader = _sourceDataTable.CreateDataReader();
@@ -134,10 +152,31 @@ namespace ObjectMapper.UnitTest
         }
 
         [TestMethod]
+        public async Task DataReader_類別物件_非同步()
+        {
+            var reader = _sourceDataTable.CreateDataReader();
+            var result = await reader.ToModelAsync<TargetModel>();
+            Assert.AreEqual(99999, result.DecimalProp);
+            Assert.AreEqual(88888, result.DoubleProp);
+            Assert.AreEqual(77777, result.IntegerProp);
+            Assert.AreEqual(66666, result.LongProp);
+            Assert.AreEqual(false, result.BooleanProp);
+            Assert.AreEqual("Test1", result.StringProp);
+        }
+
+        [TestMethod]
         public void DataReader_類別物件陣列()
         {
             var reader = _sourceDataTable.CreateDataReader();
             var result = reader.ToModelList<TargetModel>();
+            Assert.AreEqual(_sourceDataTable.Rows.Count, result.Count);
+        }
+
+        [TestMethod]
+        public async Task DataReader_類別物件陣列_非同步()
+        {
+            var reader = _sourceDataTable.CreateDataReader();
+            var result = await reader.ToModelListAsync<TargetModel>();
             Assert.AreEqual(_sourceDataTable.Rows.Count, result.Count);
         }
     }
