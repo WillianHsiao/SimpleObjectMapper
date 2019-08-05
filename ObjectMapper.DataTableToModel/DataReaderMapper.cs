@@ -177,10 +177,11 @@ namespace ObjectMapper.AdoNetToModel
         private static async Task<List<T>> MapToSingleValueListAsync<T>(this DbDataReader dataReader, string columnName)
         {
             var result = new List<T>();
-            while (dataReader.Read())
+            while (await dataReader.ReadAsync())
             {
                 result.Add(await dataReader.MapToSingleValueAsync<T>(columnName));
             }
+
             return result;
         }
 
@@ -209,7 +210,13 @@ namespace ObjectMapper.AdoNetToModel
         /// <returns></returns>
         private static async Task<List<T>> MapToModelListAsync<T>(this DbDataReader dataReader)
         {
-            return await Task.FromResult(dataReader.MapToModelList<T>());
+            var result = new List<T>();
+            while (await dataReader.ReadAsync())
+            {
+                result.Add(await dataReader.MapToModelAsync<T>());
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -250,9 +257,9 @@ namespace ObjectMapper.AdoNetToModel
         /// <typeparam name="T"></typeparam>
         /// <param name="dataReader"></param>
         /// <returns></returns>
-        private static Task<T> MapToModelAsync<T>(this DbDataReader dataReader)
+        private static async Task<T> MapToModelAsync<T>(this DbDataReader dataReader)
         {
-            return Task.FromResult(dataReader.MapToModel<T>());
+            return await Task.FromResult(dataReader.MapToModel<T>());
         }
     }
 }

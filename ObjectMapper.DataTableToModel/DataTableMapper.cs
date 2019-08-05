@@ -201,7 +201,13 @@ namespace ObjectMapper.AdoNetToModel
         /// <returns></returns>
         private static async Task<List<T>> MapToModelListAsync<T>(this DataTable dataTable)
         {
-            return await Task.FromResult(dataTable.MapToList<T>());
+            var result = new List<T>();
+            foreach (DataRow dr in dataTable.Rows)
+            {
+                result.Add(await dr.MapToModelAsync<T>());
+            }
+
+            return result;
         }
 
         /// <summary>
