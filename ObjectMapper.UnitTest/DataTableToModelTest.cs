@@ -39,7 +39,7 @@ namespace ObjectMapper.UnitTest
         public void DataTable_單一值()
         {
             var dataRow = _sourceDataTable.Rows[0];
-            var result = dataRow.ToValue<decimal>("DecimalProp");
+            var result = dataRow.MapValue<decimal>("DecimalProp");
             Assert.AreEqual(99999, result);
         }
 
@@ -49,7 +49,7 @@ namespace ObjectMapper.UnitTest
             var dataRow = _sourceDataTable.Rows[0];
             try
             {
-                dataRow.ToValue<decimal>("DecimalPropWW");
+                dataRow.MapValue<decimal>("DecimalPropWW");
             }
             catch(WrongNameException ex)
             {
@@ -63,7 +63,7 @@ namespace ObjectMapper.UnitTest
             var dataRow = _sourceDataTable.Rows[0];
             try
             {
-                dataRow.ToValue<bool>("DecimalProp");
+                dataRow.MapValue<bool>("DecimalProp");
             }
             catch (WrongTypeException ex)
             {
@@ -75,7 +75,7 @@ namespace ObjectMapper.UnitTest
         [TestMethod]
         public void DataTable_單一元素陣列()
         {
-            var result = _sourceDataTable.ToValueList<decimal>("DecimalProp");
+            var result = _sourceDataTable.MapValueList<decimal>("DecimalProp");
             Assert.AreEqual(_sourceDataTable.Rows.Count, result.Count);
         }
 
@@ -83,7 +83,7 @@ namespace ObjectMapper.UnitTest
         public void DataTable_類別物件()
         {
             var dataRow = _sourceDataTable.Rows[0];
-            var result = dataRow.ToModel<TargetModel>();
+            var result = dataRow.MapModel<TargetModel>();
             Assert.AreEqual(99999, result.DecimalProp);
             Assert.AreEqual(88888, result.DoubleProp);
             Assert.AreEqual(77777, result.IntegerProp);
@@ -95,7 +95,7 @@ namespace ObjectMapper.UnitTest
         [TestMethod]
         public void DataTable_類別物件陣列()
         {
-            var result = _sourceDataTable.ToModelList<TargetModel>();
+            var result = _sourceDataTable.MapModelList<TargetModel>();
             Assert.AreEqual(_sourceDataTable.Rows.Count, result.Count);
         }
     }

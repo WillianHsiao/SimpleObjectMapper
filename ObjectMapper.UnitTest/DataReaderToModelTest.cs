@@ -42,7 +42,7 @@ namespace ObjectMapper.UnitTest
         public void DataReader_單一值()
         {
             var reader = _sourceDataTable.CreateDataReader();
-            var result = reader.ToValue<decimal>("DecimalProp");
+            var result = reader.MapValue<decimal>("DecimalProp");
             Assert.AreEqual(99999, result);
         }
 
@@ -50,7 +50,7 @@ namespace ObjectMapper.UnitTest
         public async Task DataReader_單一值_非同步()
         {
             var reader = _sourceDataTable.CreateDataReader();
-            var result = await reader.ToValueAsync<decimal>("DecimalProp");
+            var result = await reader.MapValueAsync<decimal>("DecimalProp");
             Assert.AreEqual(99999, result);
         }
 
@@ -60,7 +60,7 @@ namespace ObjectMapper.UnitTest
             var reader = _sourceDataTable.CreateDataReader();
             try
             {
-                reader.ToValue<decimal>("DecimalWW");
+                reader.MapValue<decimal>("DecimalWW");
             }
             catch (WrongNameException ex)
             {
@@ -73,7 +73,7 @@ namespace ObjectMapper.UnitTest
         public void DataReader_單一值_沒給欄位名稱()
         {
             var reader = _sourceDataTable.CreateDataReader();
-            reader.ToValue<decimal>(null);
+            reader.MapValue<decimal>(null);
         }
 
         [TestMethod]
@@ -82,7 +82,7 @@ namespace ObjectMapper.UnitTest
             var reader = _sourceDataTable.CreateDataReader();
             try
             {
-                reader.ToValue<bool>("DecimalProp");
+                reader.MapValue<bool>("DecimalProp");
             }
             catch (WrongTypeException ex)
             {
@@ -95,7 +95,7 @@ namespace ObjectMapper.UnitTest
         public void DataReader_單一元素陣列()
         {
             var reader = _sourceDataTable.CreateDataReader();
-            var result = reader.ToList<decimal>("DecimalProp");
+            var result = reader.MapValueList<decimal>("DecimalProp");
             Assert.AreEqual(_sourceDataTable.Rows.Count, result.Count);
         }
         
@@ -103,7 +103,7 @@ namespace ObjectMapper.UnitTest
         public async Task DataReader_單一元素陣列_非同步()
         {
             var reader = _sourceDataTable.CreateDataReader();
-            var result = await reader.ToListAsync<decimal>("DecimalProp");
+            var result = await reader.MapValueListAsync<decimal>("DecimalProp");
             Assert.AreEqual(_sourceDataTable.Rows.Count, result.Count);
         }
 
@@ -113,7 +113,7 @@ namespace ObjectMapper.UnitTest
             var reader = _sourceDataTable.CreateDataReader();
             try
             {
-                reader.ToList<decimal>("DecimalWW");
+                reader.MapValueList<decimal>("DecimalWW");
             }
             catch (WrongNameException ex)
             {
@@ -126,7 +126,7 @@ namespace ObjectMapper.UnitTest
         public void DataReader_單一元素陣列_沒給欄位名稱()
         {
             var reader = _sourceDataTable.CreateDataReader();
-            reader.ToList<decimal>(null);
+            reader.MapValueList<decimal>(null);
         }
 
         [TestMethod]
@@ -134,7 +134,7 @@ namespace ObjectMapper.UnitTest
         public void DataReader_單一元素陣列_錯誤型別()
         {
             var reader = _sourceDataTable.CreateDataReader();
-            var result = reader.ToList<DateTime>("DecimalProp");
+            var result = reader.MapValueList<DateTime>("DecimalProp");
             Assert.AreEqual(_sourceDataTable.Rows.Count, result.Count);
         }
 
@@ -142,7 +142,7 @@ namespace ObjectMapper.UnitTest
         public void DataReader_類別物件()
         {
             var reader = _sourceDataTable.CreateDataReader();
-            var result = reader.ToModel<TargetModel>();
+            var result = reader.MapModel<TargetModel>();
             Assert.AreEqual(99999, result.DecimalProp);
             Assert.AreEqual(88888, result.DoubleProp);
             Assert.AreEqual(77777, result.IntegerProp);
@@ -155,7 +155,7 @@ namespace ObjectMapper.UnitTest
         public async Task DataReader_類別物件_非同步()
         {
             var reader = _sourceDataTable.CreateDataReader();
-            var result = await reader.ToModelAsync<TargetModel>();
+            var result = await reader.MapModelAsync<TargetModel>();
             Assert.AreEqual(99999, result.DecimalProp);
             Assert.AreEqual(88888, result.DoubleProp);
             Assert.AreEqual(77777, result.IntegerProp);
@@ -168,7 +168,7 @@ namespace ObjectMapper.UnitTest
         public void DataReader_類別物件陣列()
         {
             var reader = _sourceDataTable.CreateDataReader();
-            var result = reader.ToModelList<TargetModel>();
+            var result = reader.MapModelList<TargetModel>();
             Assert.AreEqual(_sourceDataTable.Rows.Count, result.Count);
         }
 
@@ -176,7 +176,7 @@ namespace ObjectMapper.UnitTest
         public async Task DataReader_類別物件陣列_非同步()
         {
             var reader = _sourceDataTable.CreateDataReader();
-            var result = await reader.ToModelListAsync<TargetModel>();
+            var result = await reader.MapModelListAsync<TargetModel>();
             Assert.AreEqual(_sourceDataTable.Rows.Count, result.Count);
         }
     }

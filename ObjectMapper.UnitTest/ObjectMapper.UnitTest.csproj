@@ -63,6 +63,7 @@
     <Compile Include="TestModel\TargetModel.cs" />
     <Compile Include="TestModel\WrongNameModel.cs" />
     <Compile Include="DataReaderToModelTest.cs" />
+    <Compile Include="VsOldWayTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

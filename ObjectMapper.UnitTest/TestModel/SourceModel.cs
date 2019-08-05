@@ -1,5 +1,4 @@
 ﻿using System;
-using ObjectMapper.Common.Attribute;
 
 namespace ObjectMapper.UnitTest.TestModel
 {

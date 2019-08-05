@@ -15,7 +15,7 @@ namespace Geo.Grid.Common.Mapper
         /// <param name="dataReader">DataReader</param>
         /// <param name="columnName">欄位名稱</param>
         /// <returns></returns>
-        public static T ToValue<T>(this DbDataReader dataReader, string columnName)
+        public static T MapValue<T>(this DbDataReader dataReader, string columnName)
         {
             return dataReader.MapToValue<T>(columnName);
         }
@@ -27,7 +27,7 @@ namespace Geo.Grid.Common.Mapper
         /// <param name="dataReader">DataReader</param>
         /// <param name="columnName">欄位名稱</param>
         /// <returns></returns>
-        public static async Task<T> ToValueAsync<T>(this DbDataReader dataReader, string columnName)
+        public static async Task<T> MapValueAsync<T>(this DbDataReader dataReader, string columnName)
         {
             return await dataReader.MapToValueAsync<T>(columnName);
         }
@@ -39,7 +39,7 @@ namespace Geo.Grid.Common.Mapper
         /// <param name="dataReader"></param>
         /// <param name="columnName"></param>
         /// <returns></returns>
-        public static List<T> ToList<T>(this DbDataReader dataReader, string columnName)
+        public static List<T> MapValueList<T>(this DbDataReader dataReader, string columnName)
         {
             return dataReader.MapToList<T>(columnName);
         }
@@ -51,7 +51,7 @@ namespace Geo.Grid.Common.Mapper
         /// <param name="dataReader"></param>
         /// <param name="columnName"></param>
         /// <returns></returns>
-        public static Task<List<T>> ToListAsync<T>(this DbDataReader dataReader, string columnName)
+        public static Task<List<T>> MapValueListAsync<T>(this DbDataReader dataReader, string columnName)
         {
             return dataReader.MapToListAsync<T>(columnName);
         }
@@ -61,7 +61,7 @@ namespace Geo.Grid.Common.Mapper
         /// <typeparam name="T">物件型別</typeparam>
         /// <param name="dataReader">資料列</param>
         /// <returns></returns>
-        public static T ToModel<T>(this DbDataReader dataReader) where T : class
+        public static T MapModel<T>(this DbDataReader dataReader) where T : class
         {
             return dataReader.MapToValue<T>();
         }
@@ -72,7 +72,7 @@ namespace Geo.Grid.Common.Mapper
         /// <typeparam name="T"></typeparam>
         /// <param name="dataReader"></param>
         /// <returns></returns>
-        public static async Task<T> ToModelAsync<T>(this DbDataReader dataReader) where T : class
+        public static async Task<T> MapModelAsync<T>(this DbDataReader dataReader) where T : class
         {
             return await dataReader.MapToValueAsync<T>();
         }
@@ -83,7 +83,7 @@ namespace Geo.Grid.Common.Mapper
         /// <typeparam name="T">陣列型別</typeparam>
         /// <param name="dataReader">資料表</param>
         /// <returns></returns>
-        public static List<T> ToModelList<T>(this DbDataReader dataReader) where T : class
+        public static List<T> MapModelList<T>(this DbDataReader dataReader) where T : class
         {
             return dataReader.MapToList<T>();
         }
@@ -94,7 +94,7 @@ namespace Geo.Grid.Common.Mapper
         /// <typeparam name="T">陣列型別</typeparam>
         /// <param name="dataReader">資料表</param>
         /// <returns></returns>
-        public static async Task<List<T>> ToModelListAsync<T>(this DbDataReader dataReader) where T : class
+        public static async Task<List<T>> MapModelListAsync<T>(this DbDataReader dataReader) where T : class
         {
             return await dataReader.MapToListAsync<T>();
         }

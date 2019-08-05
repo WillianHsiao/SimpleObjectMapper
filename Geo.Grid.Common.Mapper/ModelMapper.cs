@@ -18,7 +18,7 @@ namespace Geo.Grid.Common.Mapper
         /// <typeparam name="T">目標型別</typeparam>
         /// <param name="source">來源物件</param>
         /// <returns></returns>
-        public static T ToValue<T>(this object source) where T : class
+        public static T Map<T>(this object source) where T : class
         {
             if (source is IList)
             {
@@ -33,7 +33,7 @@ namespace Geo.Grid.Common.Mapper
         /// <typeparam name="T">目標型別</typeparam>
         /// <param name="source">來源物件</param>
         /// <returns></returns>
-        public static async Task<T> ToValueAsync<T>(this object source) where T : class
+        public static async Task<T> MapAsync<T>(this object source) where T : class
         {
             if (source is IList)
             {
@@ -48,7 +48,7 @@ namespace Geo.Grid.Common.Mapper
         /// <typeparam name="T"></typeparam>
         /// <param name="source"></param>
         /// <returns></returns>
-        public static List<T> ToList<T>(this object source) where T : class
+        public static List<T> MapList<T>(this object source) where T : class
         {
             if (source == null)
             {
@@ -67,7 +67,7 @@ namespace Geo.Grid.Common.Mapper
         /// <typeparam name="T"></typeparam>
         /// <param name="source"></param>
         /// <returns></returns>
-        public static async Task<List<T>> ToListAsync<T>(this object source) where T : class
+        public static async Task<List<T>> MapListAsync<T>(this object source) where T : class
         {
             if (source is IList)
             {
