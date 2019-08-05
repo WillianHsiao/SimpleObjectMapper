@@ -41,7 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdoNetMapper.cs" />
+    <Compile Include="DataTableMapper.cs" />
+    <Compile Include="DataReaderMapper.cs" />
     <Compile Include="ModelMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

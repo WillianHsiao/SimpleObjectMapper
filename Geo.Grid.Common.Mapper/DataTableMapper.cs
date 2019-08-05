@@ -1,7 +1,6 @@
 ﻿using ObjectMapper.AdoNetToModel;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Common;
 using System.Threading.Tasks;
 
 namespace Geo.Grid.Common.Mapper
@@ -9,7 +8,7 @@ namespace Geo.Grid.Common.Mapper
     /// <summary>
     /// AdoNet轉換
     /// </summary>
-    public static class AdoNetMapper
+    public static class DataTableMapper
     {
         #region DataTableToModel
         /// <summary>
@@ -105,54 +104,6 @@ namespace Geo.Grid.Common.Mapper
         }
         #endregion
 
-        #region DataReaderToModel
-        /// <summary>
-        /// 特定資料欄轉換成特定值
-        /// </summary>
-        /// <typeparam name="T">值型別</typeparam>
-        /// <param name="dataReader">DataReader</param>
-        /// <param name="columnName">欄位名稱</param>
-        /// <returns></returns>
-        public static T ToValue<T>(this DbDataReader dataReader, string columnName)
-        {
-            return dataReader.MapToValue<T>(columnName);
-        }
-
-        /// <summary>
-        /// 特定資料欄轉換成特定值(非同步)
-        /// </summary>
-        /// <typeparam name="T">值型別</typeparam>
-        /// <param name="dataReader">DataReader</param>
-        /// <param name="columnName">欄位名稱</param>
-        /// <returns></returns>
-        public static async Task<T> ToValueAsync<T>(this DbDataReader dataReader, string columnName)
-        {
-            return await dataReader.MapToValueAsync<T>(columnName);
-        }
-
-        /// <summary>
-        /// DataReader轉換成陣列
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="dataReader"></param>
-        /// <param name="columnName"></param>
-        /// <returns></returns>
-        public static List<T> ToList<T>(this DbDataReader dataReader, string columnName)
-        {
-            return dataReader.MapToList<T>(columnName);
-        }
-
-        /// <summary>
-        /// DataReader轉換成陣列(非同步)
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="dataReader"></param>
-        /// <param name="columnName"></param>
-        /// <returns></returns>
-        public static Task<List<T>> ToListAsync<T>(this DbDataReader dataReader, string columnName)
-        {
-            return dataReader.MapToListAsync<T>(columnName);
-        }
-        #endregion
+        
     }
 }

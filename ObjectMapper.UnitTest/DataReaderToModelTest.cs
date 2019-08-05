@@ -120,7 +120,7 @@ namespace ObjectMapper.UnitTest
         public void DataReader_類別物件()
         {
             var reader = sourceDataTable.CreateDataReader();
-            var result = reader.ToValue<TargetModel>();
+            var result = reader.ToModel<TargetModel>();
             Assert.AreEqual(99999, result.DecimalProp);
             Assert.AreEqual(88888, result.DoubleProp);
             Assert.AreEqual(77777, result.IntegerProp);
@@ -133,7 +133,7 @@ namespace ObjectMapper.UnitTest
         public void DataReader_類別物件陣列()
         {
             var reader = sourceDataTable.CreateDataReader();
-            var result = reader.ToList<TargetModel>();
+            var result = reader.ToModelList<TargetModel>();
             Assert.AreEqual(sourceDataTable.Rows.Count, result.Count);
         }
     }
