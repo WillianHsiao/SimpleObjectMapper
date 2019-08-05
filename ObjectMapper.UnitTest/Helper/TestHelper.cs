@@ -15,8 +15,7 @@ namespace ObjectMapper.UnitTest.Helper
         /// <returns></returns>
         public static DataTable ToDataTable<T>(this List<T> data)
         {
-            var props =
-                TypeDescriptor.GetProperties(typeof(T));
+            var props = TypeDescriptor.GetProperties(typeof(T));
             var table = new DataTable();
             for (var i = 0; i < props.Count; i++)
             {

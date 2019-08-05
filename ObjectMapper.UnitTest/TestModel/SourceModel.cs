@@ -1,4 +1,5 @@
 ﻿using System;
+using ObjectMapper.Common.Attribute;
 
 namespace ObjectMapper.UnitTest.TestModel
 {
@@ -11,6 +12,5 @@ namespace ObjectMapper.UnitTest.TestModel
         public long LongProp { get; set; }
         public bool BooleanProp { get; set; }
         public DateTime DateTimeProp { get; set; }
-        public SubModel SubModel { get; set; }
     }
 }

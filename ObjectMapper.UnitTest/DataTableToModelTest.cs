@@ -11,7 +11,7 @@ using ObjectMapper.UnitTest.TestModel;
 namespace ObjectMapper.UnitTest
 {
     [TestClass]
-    public class AdoNetToModelTest
+    public class DataTableToModelTest
     {
         private static DataTable sourceDataTable = new DataTable();
 
@@ -73,20 +73,20 @@ namespace ObjectMapper.UnitTest
         }
 
         [TestMethod]
-        public void AdoNet_單一值()
+        public void DataTable_單一值()
         {
             var dataRow = sourceDataTable.Rows[0];
-            var result = dataRow.ToSingleValue<decimal>("DecimalProp");
+            var result = dataRow.ToValue<decimal>("DecimalProp");
             Assert.AreEqual(99999, result);
         }
 
         [TestMethod]
-        public void AdoNet_單一值_錯誤欄位名稱()
+        public void DataTable_單一值_錯誤欄位名稱()
         {
             var dataRow = sourceDataTable.Rows[0];
             try
             {
-                dataRow.ToSingleValue<decimal>("DecimalPropWW");
+                dataRow.ToValue<decimal>("DecimalPropWW");
             }
             catch(WrongNameException ex)
             {
@@ -95,12 +95,12 @@ namespace ObjectMapper.UnitTest
         }
 
         [TestMethod]
-        public void AdoNet_單一值_錯誤型別()
+        public void DataTable_單一值_錯誤型別()
         {
             var dataRow = sourceDataTable.Rows[0];
             try
             {
-                dataRow.ToSingleValue<bool>("DecimalProp");
+                dataRow.ToValue<bool>("DecimalProp");
             }
             catch (WrongTypeException ex)
             {
@@ -110,17 +110,17 @@ namespace ObjectMapper.UnitTest
         }
 
         [TestMethod]
-        public void AdoNet_單一元素陣列()
+        public void DataTable_單一元素陣列()
         {
-            var result = sourceDataTable.ToList<decimal>("DecimalProp");
+            var result = sourceDataTable.ToValueList<decimal>("DecimalProp");
             Assert.AreEqual(sourceDataTable.Rows.Count, result.Count);
         }
 
         [TestMethod]
-        public void AdoNet_類別物件()
+        public void DataTable_類別物件()
         {
             var dataRow = sourceDataTable.Rows[0];
-            var result = dataRow.ToModel<SourceModel>();
+            var result = dataRow.ToModel<TargetModel>();
             Assert.AreEqual(99999, result.DecimalProp);
             Assert.AreEqual(88888, result.DoubleProp);
             Assert.AreEqual(77777, result.IntegerProp);
@@ -130,9 +130,9 @@ namespace ObjectMapper.UnitTest
         }
 
         [TestMethod]
-        public void AdoNet_類別物件陣列()
+        public void DataTable_類別物件陣列()
         {
-            var result = sourceDataTable.ToList<SourceModel>();
+            var result = sourceDataTable.ToModelList<TargetModel>();
             Assert.AreEqual(sourceDataTable.Rows.Count, result.Count);
         }
     }

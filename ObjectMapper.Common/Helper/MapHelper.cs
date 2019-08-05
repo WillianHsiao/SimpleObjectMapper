@@ -42,12 +42,12 @@ namespace ObjectMapper.Common.Helper
         public static object ConvertValueFromDataRow(this PropertyInfo property, DataRow dataRow,
             string customName = null)
         {
-            object result;
+            object result = null;
             if (!string.IsNullOrWhiteSpace(customName) && dataRow.Table.Columns.Contains(customName))
             {
                 result = dataRow.ConvertValue(property.PropertyType, customName);
             }
-            else
+            else if(dataRow.Table.Columns.Contains(property.Name))
             {
                 result = dataRow.ConvertValue(property.PropertyType, property.Name);
             }
@@ -88,12 +88,12 @@ namespace ObjectMapper.Common.Helper
         public static object ConvertValueFromDataReader(this PropertyInfo property, DbDataReader dataReader,
             string customName = null)
         {
-            object result;
+            object result = null;
             if (!string.IsNullOrWhiteSpace(customName) && dataReader.HasColumn(customName))
             {
                 result = dataReader.ConvertValue(property.PropertyType, customName);
             }
-            else
+            else if(dataReader.HasColumn(property.Name))
             {
                 result = dataReader.ConvertValue(property.PropertyType, property.Name);
             }

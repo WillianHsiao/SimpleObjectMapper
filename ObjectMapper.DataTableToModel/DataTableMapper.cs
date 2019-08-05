@@ -15,13 +15,99 @@ namespace ObjectMapper.AdoNetToModel
     public static class DataTableMapper
     {
         /// <summary>
+        /// 資料列轉換單一物件
+        /// </summary>
+        /// <typeparam name="T">目標型別</typeparam>
+        /// <param name="dataRow">資料列</param>
+        /// <param name="columnName">資料欄名稱</param>
+        /// <returns></returns>
+        public static T MapToValue<T>(this DataRow dataRow, string columnName = null)
+        {
+            if (typeof(T).IsClass)
+            {
+                return dataRow.MapToModel<T>();
+            }
+
+            if (string.IsNullOrWhiteSpace(columnName))
+            {
+                throw new NameMissException();
+            }
+
+            return dataRow.MapToSingleValue<T>(columnName);
+        }
+
+        /// <summary>
+        /// 資料列轉換單一物件(非同步)
+        /// </summary>
+        /// <typeparam name="T">目標型別</typeparam>
+        /// <param name="dataRow">資料列</param>
+        /// <param name="columnName">資料欄名稱</param>
+        /// <returns></returns>
+        public static async Task<T> MapToValueAsync<T>(this DataRow dataRow, string columnName = null)
+        {
+            if (typeof(T).IsClass)
+            {
+                return await dataRow.MapToModelAsync<T>();
+            }
+
+            if (string.IsNullOrWhiteSpace(columnName))
+            {
+                throw new NameMissException();
+            }
+
+            return await dataRow.MapToSingleValueAsync<T>(columnName);
+        }
+
+        /// <summary>
+        /// 資料表轉換物件陣列
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="dataTable"></param>
+        /// <param name="columnName"></param>
+        /// <returns></returns>
+        public static List<T> MapToList<T>(this DataTable dataTable, string columnName = null)
+        {
+            if (typeof(T).IsClass)
+            {
+                return dataTable.MapToModelList<T>();
+            }
+
+            if (string.IsNullOrWhiteSpace(columnName))
+            {
+                throw new NameMissException();
+            }
+            return dataTable.MapToSingleValueList<T>(columnName);
+        }
+
+        /// <summary>
+        /// 資料表轉換物件陣列(非同步)
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="dataTable"></param>
+        /// <param name="columnName"></param>
+        /// <returns></returns>
+        public static async Task<List<T>> MapToListAsync<T>(this DataTable dataTable, string columnName = null)
+        {
+            if (typeof(T).IsClass)
+            {
+                return await dataTable.MapToModelListAsync<T>();
+            }
+
+            if (string.IsNullOrWhiteSpace(columnName))
+            {
+                throw new NameMissException();
+            }
+            return await dataTable.MapToSingleValueListAsync<T>(columnName);
+        }
+
+        /// <summary>
         /// 特定欄位轉換
         /// </summary>
         /// <typeparam name="T">轉換型別</typeparam>
         /// <param name="dataRow">資料列</param>
         /// <param name="columnName">資料欄名稱</param>
         /// <returns></returns>
-        public static T MapToObject<T>(this DataRow dataRow, string columnName)
+        private static T MapToSingleValue<T>(this DataRow dataRow, string columnName)
         {
             T result;
             try
@@ -36,7 +122,7 @@ namespace ObjectMapper.AdoNetToModel
             catch (WrongNameException ex)
             {
                 ex.TargetPropertyName = columnName;
-                throw ex;
+                throw;
             }
 
             return result;
@@ -49,9 +135,9 @@ namespace ObjectMapper.AdoNetToModel
         /// <param name="dataRow">資料列</param>
         /// <param name="columnName">資料欄名稱</param>
         /// <returns></returns>
-        public static async Task<T> MapToObjectAsync<T>(this DataRow dataRow, string columnName)
+        private static async Task<T> MapToSingleValueAsync<T>(this DataRow dataRow, string columnName)
         {
-            return await Task.FromResult(dataRow.MapToObject<T>(columnName));
+            return await Task.FromResult(dataRow.MapToSingleValue<T>(columnName));
         }
 
         /// <summary>
@@ -61,12 +147,12 @@ namespace ObjectMapper.AdoNetToModel
         /// <param name="dataTable">資料表</param>
         /// <param name="columnName">資料欄名稱</param>
         /// <returns></returns>
-        public static List<T> MapToList<T>(this DataTable dataTable, string columnName)
+        private static List<T> MapToSingleValueList<T>(this DataTable dataTable, string columnName)
         {
             var result = new List<T>();
             foreach (DataRow dataRow in dataTable.Rows)
             {
-                result.Add(dataRow.MapToObject<T>(columnName));
+                result.Add(dataRow.MapToSingleValue<T>(columnName));
             }
 
             return result;
@@ -79,15 +165,43 @@ namespace ObjectMapper.AdoNetToModel
         /// <param name="dataTable">資料表</param>
         /// <param name="columnName">資料欄名稱</param>
         /// <returns></returns>
-        public static async Task<List<T>> MapToListAsync<T>(this DataTable dataTable, string columnName)
+        private static async Task<List<T>> MapToSingleValueListAsync<T>(this DataTable dataTable, string columnName)
         {
             var result = new List<T>();
             foreach (DataRow dataRow in dataTable.Rows)
             {
-                result.Add(await dataRow.MapToObjectAsync<T>(columnName));
+                result.Add(await dataRow.MapToSingleValueAsync<T>(columnName));
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// 資料表轉換陣列
+        /// </summary>
+        /// <typeparam name="T">轉換型別</typeparam>
+        /// <param name="dataTable">資料表</param>
+        /// <returns></returns>
+        private static List<T> MapToModelList<T>(this DataTable dataTable)
+        {
+            var result = new List<T>();
+            foreach (DataRow dr in dataTable.Rows)
+            {
+                result.Add(dr.MapToModel<T>());
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 資料表轉換陣列(非同步)
+        /// </summary>
+        /// <typeparam name="T">轉換型別</typeparam>
+        /// <param name="dataTable">資料表</param>
+        /// <returns></returns>
+        private static async Task<List<T>> MapToModelListAsync<T>(this DataTable dataTable)
+        {
+            return await Task.FromResult(dataTable.MapToList<T>());
         }
 
         /// <summary>
@@ -96,7 +210,7 @@ namespace ObjectMapper.AdoNetToModel
         /// <typeparam name="T">轉換型別</typeparam>
         /// <param name="dataRow">資料列</param>
         /// <returns></returns>
-        public static T MapToModel<T>(this DataRow dataRow) where T : class
+        private static T MapToModel<T>(this DataRow dataRow)
         {
             var result = Activator.CreateInstance<T>();
             var type = typeof(T);
@@ -131,37 +245,9 @@ namespace ObjectMapper.AdoNetToModel
         /// <typeparam name="T">轉換型別</typeparam>
         /// <param name="dataRow">資料列</param>
         /// <returns></returns>
-        public static async Task<T> MapToModelAsync<T>(this DataRow dataRow) where T : class
+        private static async Task<T> MapToModelAsync<T>(this DataRow dataRow)
         {
             return await Task.FromResult(dataRow.MapToModel<T>());
-        }
-
-        /// <summary>
-        /// 資料表轉換陣列
-        /// </summary>
-        /// <typeparam name="T">轉換型別</typeparam>
-        /// <param name="dataTable">資料表</param>
-        /// <returns></returns>
-        public static List<T> MapToList<T>(this DataTable dataTable) where T : class
-        {
-            var result = new List<T>();
-            foreach (DataRow dr in dataTable.Rows)
-            {
-                result.Add(dr.MapToModel<T>());
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// 資料表轉換陣列(非同步)
-        /// </summary>
-        /// <typeparam name="T">轉換型別</typeparam>
-        /// <param name="dataTable">資料表</param>
-        /// <returns></returns>
-        public static async Task<List<T>> MapToListAsync<T>(this DataTable dataTable) where T : class
-        {
-            return await Task.FromResult(dataTable.MapToList<T>());
         }
     }
 }

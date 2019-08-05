@@ -1,15 +1,15 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ObjectMapper.Common.Attribute;
-using ObjectMapper.Common.Exception;
 using ObjectMapper.Common.Helper;
 
 namespace ObjectMapper.ModelToModel
 {
     /// <summary>
-    /// 模組與模組轉換
+    /// 模組或物件轉換
     /// </summary>
     public static class Mapper
     {
@@ -19,14 +19,9 @@ namespace ObjectMapper.ModelToModel
         /// <typeparam name="T"></typeparam>
         /// <param name="source"></param>
         /// <returns></returns>
-        public static T MapToValue<T>(this object source)
+        public static T MapToValue<T>(this object source) where T : class
         {
-            if (typeof(T).IsClass)
-            {
-                return source.MapToModel<T>();
-            }
-
-            return source.MapToSingleValue<T>();
+            return source.MapToModel<T>();
         }
 
         /// <summary>
@@ -35,14 +30,9 @@ namespace ObjectMapper.ModelToModel
         /// <typeparam name="T"></typeparam>
         /// <param name="source"></param>
         /// <returns></returns>
-        public static async Task<T> MapToValueAsync<T>(this object source)
+        public static async Task<T> MapToValueAsync<T>(this object source) where T : class
         {
-            if (typeof(T).IsClass)
-            {
-                return await source.MapToModelAsync<T>();
-            }
-
-            return await source.MapToSingleValueAsync<T>();
+            return await source.MapToModelAsync<T>();
         }
 
         /// <summary>
@@ -51,13 +41,8 @@ namespace ObjectMapper.ModelToModel
         /// <typeparam name="T"></typeparam>
         /// <param name="sourceList"></param>
         /// <returns></returns>
-        public static List<T> MapToList<T>(this List<object> sourceList)
+        public static List<T> MapToList<T>(this object sourceList) where T : class
         {
-            if (typeof(T).IsClass)
-            {
-                return sourceList.MapToSingleValueList<T>();
-            }
-
             return sourceList.MapToModelList<T>();
         }
 
@@ -67,14 +52,9 @@ namespace ObjectMapper.ModelToModel
         /// <typeparam name="T"></typeparam>
         /// <param name="sourceList"></param>
         /// <returns></returns>
-        public static async Task<List<T>> MapToListAsync<T>(this List<object> sourceList)
+        public static async Task<List<T>> MapToListAsync<T>(this object sourceList) where T : class
         {
-            if (typeof(T).IsClass)
-            {
-                return await sourceList.MapToModelListAsync<T>();
-            }
-
-            return await sourceList.MapToSingleValueListAsync<T>();
+            return await sourceList.MapToModelListAsync<T>();
         }
 
         /// <summary>
@@ -83,10 +63,10 @@ namespace ObjectMapper.ModelToModel
         /// <typeparam name="T"></typeparam>
         /// <param name="sourceList"></param>
         /// <returns></returns>
-        private static List<T> MapToSingleValueList<T>(this List<object> sourceList)
+        private static List<T> MapToSingleValueList<T>(this object sourceList)
         {
             var result = new List<T>();
-            foreach (var obj in sourceList)
+            foreach (var obj in (IList)sourceList)
             {
                 result.Add(obj.MapToSingleValue<T>());
             }
@@ -100,10 +80,10 @@ namespace ObjectMapper.ModelToModel
         /// <typeparam name="T"></typeparam>
         /// <param name="sourceList"></param>
         /// <returns></returns>
-        private static async Task<List<T>> MapToSingleValueListAsync<T>(this List<object> sourceList)
+        private static async Task<List<T>> MapToSingleValueListAsync<T>(this object sourceList)
         {
             var result = new List<T>();
-            foreach (var obj in sourceList)
+            foreach (var obj in (IList)sourceList)
             {
                 result.Add(await obj.MapToSingleValueAsync<T>());
             }
@@ -139,10 +119,10 @@ namespace ObjectMapper.ModelToModel
         /// <typeparam name="T">目標型別</typeparam>
         /// <param name="sourceList">來源陣列</param>
         /// <returns></returns>
-        private static List<T> MapToModelList<T>(this List<object> sourceList)
+        private static List<T> MapToModelList<T>(this object sourceList)
         {
             var result = new List<T>();
-            foreach (var obj in sourceList)
+            foreach (var obj in (IList)sourceList)
             {
                 result.Add(obj.MapToModel<T>());
             }
@@ -156,10 +136,10 @@ namespace ObjectMapper.ModelToModel
         /// <typeparam name="T">目標型別</typeparam>
         /// <param name="sourceList">來源陣列</param>
         /// <returns></returns>
-        private static async Task<List<T>> MapToModelListAsync<T>(this List<object> sourceList)
+        private static async Task<List<T>> MapToModelListAsync<T>(this object sourceList)
         {
             var result = new List<T>();
-            foreach (var obj in sourceList)
+            foreach (var obj in (IList)sourceList)
             {
                 result.Add(await obj.MapToModelAsync<T>());
             }
@@ -204,13 +184,6 @@ namespace ObjectMapper.ModelToModel
                 if (sourceProp != null)
                 {
                     targetProp.SetValue(result, sourceProp.GetValue(source));
-                }
-                else
-                {
-                    throw new WrongNameException
-                    {
-                        TargetPropertyName = targetProp.Name
-                    };
                 }
             }
 

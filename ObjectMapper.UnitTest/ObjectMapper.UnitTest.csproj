@@ -50,7 +50,7 @@
     <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdoNetToModelTest.cs" />
+    <Compile Include="DataTableToModelTest.cs" />
     <Compile Include="Helper\TestHelper.cs" />
     <Compile Include="ModelToModelTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -58,10 +58,11 @@
     <Compile Include="TestModel\IgnoreModel.cs" />
     <Compile Include="TestModel\MixModel.cs" />
     <Compile Include="TestModel\SourceModel.cs" />
+    <Compile Include="TestModel\SourceWithSubModel.cs" />
     <Compile Include="TestModel\SubModel.cs" />
     <Compile Include="TestModel\TargetModel.cs" />
     <Compile Include="TestModel\WrongNameModel.cs" />
-    <Compile Include="ValueToValueTest.cs" />
+    <Compile Include="DataReaderToModelTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

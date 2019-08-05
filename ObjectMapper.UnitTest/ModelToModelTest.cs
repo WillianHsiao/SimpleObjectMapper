@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Geo.Grid.Common.Mapper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ObjectMapper.Common.Exception;
@@ -17,17 +18,28 @@ namespace ObjectMapper.UnitTest
             LongProp = 66666,
             BooleanProp = false,
             StringProp = "Test",
+            DateTimeProp = DateTime.Parse("2019/08/02")
+        };
+
+        private static SourceWithSubModel sourceWithSub = new SourceWithSubModel
+        {
+            DecimalProp = 99999,
+            DoubleProp = 88888,
+            IntegerProp = 77777,
+            LongProp = 66666,
+            BooleanProp = false,
+            StringProp = "Test",
             DateTimeProp = DateTime.Parse("2019/08/02"),
-            SubModel = new SubModel()
+            SubModel = new SubModel
             {
-                SubModelString = "SubString"
+                SubModelString = "SubModel"
             }
         };
 
         [TestMethod]
         public void ModelToModel_正常情況()
         {
-            var result = source.Map<TargetModel>();
+            var result = source.ToValue<TargetModel>();
             Assert.AreEqual(source.DecimalProp, result.DecimalProp);
             Assert.AreEqual(source.DoubleProp, result.DoubleProp);
             Assert.AreEqual(source.IntegerProp, result.IntegerProp);
@@ -35,13 +47,26 @@ namespace ObjectMapper.UnitTest
             Assert.AreEqual(source.BooleanProp, result.BooleanProp);
             Assert.AreEqual(source.StringProp, result.StringProp);
             Assert.AreEqual(source.DateTimeProp, result.DateTimeProp);
-            Assert.AreEqual(source.SubModel, result.SubModel);
+        }
+
+        [TestMethod]
+        public void ModelToModel_有子類別_正常情況()
+        {
+            var result = sourceWithSub.ToValue<TargetModel>();
+            Assert.AreEqual(sourceWithSub.DecimalProp, result.DecimalProp);
+            Assert.AreEqual(sourceWithSub.DoubleProp, result.DoubleProp);
+            Assert.AreEqual(sourceWithSub.IntegerProp, result.IntegerProp);
+            Assert.AreEqual(sourceWithSub.LongProp, result.LongProp);
+            Assert.AreEqual(sourceWithSub.BooleanProp, result.BooleanProp);
+            Assert.AreEqual(sourceWithSub.StringProp, result.StringProp);
+            Assert.AreEqual(sourceWithSub.DateTimeProp, result.DateTimeProp);
+            Assert.AreEqual(sourceWithSub.SubModel, result.SubModel);
         }
 
         [TestMethod]
         public void ModelToModel_屬性自訂名稱()
         {
-            var result = source.Map<CustomNameModel>();
+            var result = source.ToValue<CustomNameModel>();
             Assert.AreEqual(source.DecimalProp, result.CustomDecimalProp);
             Assert.AreEqual(source.DoubleProp, result.CustomDoubleProp);
             Assert.AreEqual(source.IntegerProp, result.CustomIntegerProp);
@@ -53,7 +78,7 @@ namespace ObjectMapper.UnitTest
         [TestMethod]
         public void ModelToModel_忽略部分屬性()
         {
-            var result = source.Map<IgnoreModel>();
+            var result = source.ToValue<IgnoreModel>();
             Assert.AreEqual(source.DecimalProp, result.DecimalProp);
             Assert.AreEqual(source.DoubleProp, result.DoubleProp);
             Assert.AreEqual(source.IntegerProp, result.IntegerProp);
@@ -67,7 +92,7 @@ namespace ObjectMapper.UnitTest
         {
             try
             {
-                source.Map<WrongNameModel>();
+                source.ToValue<WrongNameModel>();
             }
             catch(WrongNameException ex)
             {
@@ -78,7 +103,7 @@ namespace ObjectMapper.UnitTest
         [TestMethod]
         public void ModelToModel_混合情況()
         {
-            var result = source.Map<MixModel>();
+            var result = source.ToValue<MixModel>();
             Assert.AreEqual(0, result.DecimalProp);
             Assert.AreEqual(source.DoubleProp, result.CustomDoubleProp);
             Assert.AreEqual(source.IntegerProp, result.IntegerProp);
@@ -92,7 +117,41 @@ namespace ObjectMapper.UnitTest
         public void ModelToModel_來源是Null()
         {
             SourceModel nullSource = null;
-            nullSource.Map<TargetModel>();
+            nullSource.ToValue<TargetModel>();
+        }
+
+        [TestMethod]
+        public void ModelToModel_陣列轉換_正常情況()
+        {
+            var sourceList = new List<SourceModel>();
+            for (var i = 0; i < 10; i++)
+            {
+                sourceList.Add(source);
+            }
+
+            var result = sourceList.ToList<TargetModel>();
+            Assert.AreEqual(sourceList.Count, result.Count);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(WrongTypeException), "此方法無法轉換陣列物件，請使用ToList")]
+        public void ModelToModel_陣列轉換_呼叫錯誤的方法()
+        {
+            var sourceList = new List<SourceModel>();
+            for (var i = 0; i < 10; i++)
+            {
+                sourceList.Add(source);
+            }
+
+            sourceList.ToValue<TargetModel>();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NullReferenceException), "資料來源為Null")]
+        public void ModelToModel_陣列轉換_來源是Null()
+        {
+            List<SourceModel> sourceList = null;
+            sourceList.ToList<TargetModel>();
         }
     }
 }

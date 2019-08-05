@@ -7,7 +7,7 @@ namespace ObjectMapper.Common.Exception
         /// <summary>
         /// 建構子
         /// </summary>
-        public WrongTypeException() : base() { }
+        public WrongTypeException() { }
 
         /// <summary>
         /// 建構子自訂訊息
