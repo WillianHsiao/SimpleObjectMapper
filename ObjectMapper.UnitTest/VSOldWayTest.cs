@@ -51,7 +51,7 @@ namespace ObjectMapper.UnitTest
             targetOld.DateTimeProp = _source.DateTimeProp;
 
             //New Way
-            var targetNew = _source.Map<TargetModel>();
+            var targetNew = _source.Map<TargetModel, SourceModel>();
 
             Assert.AreEqual(targetOld.StringProp, targetNew.StringProp);
             Assert.AreEqual(targetOld.DecimalProp, targetNew.DecimalProp);
@@ -80,13 +80,43 @@ namespace ObjectMapper.UnitTest
             //New Way Two
             var decimalsNew2 = _sourceDataTable.MapValueList<decimal>("DecimalProp");
 
+            //Result
             Assert.AreEqual(decimalsOld.Count, decimalsNew1.Count);
-            Assert.AreEqual(decimalsNew1.Count, decimalsNew2.Count);
+            Assert.AreEqual(decimalsOld.Count, decimalsNew2.Count);
         }
 
+        [TestMethod]
         public void DataTableToModelList()
         {
+            //Old Way
+            var modelListOld = new List<TargetModel>();
+            foreach (DataRow dataRow in _sourceDataTable.Rows)
+            {
+                var model = new TargetModel();
+                model.StringProp = dataRow["StringProp"].ToString();
+                model.DecimalProp = Convert.ToDecimal(dataRow["DecimalProp"]);
+                model.DoubleProp = Convert.ToDouble(dataRow["DoubleProp"]);
+                model.IntegerProp = Convert.ToInt32(dataRow["IntegerProp"]);
+                model.LongProp = Convert.ToInt64(dataRow["LongProp"]);
+                model.BooleanProp = Convert.ToBoolean(dataRow["BooleanProp"]);
+                model.DateTimeProp = Convert.ToDateTime(dataRow["DateTimeProp"]);
+                modelListOld.Add(model);
+            }
 
+            //New Way One
+            var modelListNew1 = new List<TargetModel>();
+            foreach (DataRow dataRow in _sourceDataTable.Rows)
+            {
+                var model = dataRow.MapModel<TargetModel>();
+                modelListNew1.Add(model);
+            }
+
+            //New Way Two
+            var modelListNew2 = _sourceDataTable.MapModelList<TargetModel>();
+
+            //Result
+            Assert.AreEqual(modelListOld.Count, modelListNew1.Count);
+            Assert.AreEqual(modelListOld.Count, modelListNew2.Count);
         }
     }
 }

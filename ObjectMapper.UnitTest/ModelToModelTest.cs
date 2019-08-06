@@ -39,7 +39,7 @@ namespace ObjectMapper.UnitTest
         [TestMethod]
         public void ModelToModel_正常情況()
         {
-            var result = source.Map<TargetModel>();
+            var result = source.Map<TargetModel, SourceModel>();
             Assert.AreEqual(source.DecimalProp, result.DecimalProp);
             Assert.AreEqual(source.DoubleProp, result.DoubleProp);
             Assert.AreEqual(source.IntegerProp, result.IntegerProp);
@@ -52,7 +52,7 @@ namespace ObjectMapper.UnitTest
         [TestMethod]
         public void ModelToModel_有子類別_正常情況()
         {
-            var result = sourceWithSub.Map<TargetModel>();
+            var result = sourceWithSub.Map<TargetModel, SourceModel>();
             Assert.AreEqual(sourceWithSub.DecimalProp, result.DecimalProp);
             Assert.AreEqual(sourceWithSub.DoubleProp, result.DoubleProp);
             Assert.AreEqual(sourceWithSub.IntegerProp, result.IntegerProp);
@@ -66,7 +66,7 @@ namespace ObjectMapper.UnitTest
         [TestMethod]
         public void ModelToModel_屬性自訂名稱()
         {
-            var result = source.Map<CustomNameModel>();
+            var result = source.Map<CustomNameModel, SourceModel>();
             Assert.AreEqual(source.DecimalProp, result.CustomDecimalProp);
             Assert.AreEqual(source.DoubleProp, result.CustomDoubleProp);
             Assert.AreEqual(source.IntegerProp, result.CustomIntegerProp);
@@ -78,7 +78,7 @@ namespace ObjectMapper.UnitTest
         [TestMethod]
         public void ModelToModel_忽略部分屬性()
         {
-            var result = source.Map<IgnoreModel>();
+            var result = source.Map<IgnoreModel, SourceModel>();
             Assert.AreEqual(source.DecimalProp, result.DecimalProp);
             Assert.AreEqual(source.DoubleProp, result.DoubleProp);
             Assert.AreEqual(source.IntegerProp, result.IntegerProp);
@@ -92,7 +92,7 @@ namespace ObjectMapper.UnitTest
         {
             try
             {
-                source.Map<WrongNameModel>();
+                source.Map<WrongNameModel, SourceModel>();
             }
             catch(WrongNameException ex)
             {
@@ -103,7 +103,7 @@ namespace ObjectMapper.UnitTest
         [TestMethod]
         public void ModelToModel_混合情況()
         {
-            var result = source.Map<MixModel>();
+            var result = source.Map<MixModel, SourceModel>();
             Assert.AreEqual(0, result.DecimalProp);
             Assert.AreEqual(source.DoubleProp, result.CustomDoubleProp);
             Assert.AreEqual(source.IntegerProp, result.IntegerProp);
@@ -117,7 +117,7 @@ namespace ObjectMapper.UnitTest
         public void ModelToModel_來源是Null()
         {
             SourceModel nullSource = null;
-            nullSource.Map<TargetModel>();
+            nullSource.Map<TargetModel, SourceModel>();
         }
 
         [TestMethod]
@@ -129,21 +129,8 @@ namespace ObjectMapper.UnitTest
                 sourceList.Add(source);
             }
 
-            var result = sourceList.MapList<TargetModel>();
+            var result = sourceList.MapList<TargetModel, SourceModel>();
             Assert.AreEqual(sourceList.Count, result.Count);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(WrongTypeException), "此方法無法轉換陣列物件，請使用ToList")]
-        public void ModelToModel_陣列轉換_呼叫錯誤的方法()
-        {
-            var sourceList = new List<SourceModel>();
-            for (var i = 0; i < 10; i++)
-            {
-                sourceList.Add(source);
-            }
-
-            sourceList.Map<TargetModel>();
         }
 
         [TestMethod]
@@ -151,7 +138,7 @@ namespace ObjectMapper.UnitTest
         public void ModelToModel_陣列轉換_來源是Null()
         {
             List<SourceModel> sourceList = null;
-            sourceList.MapList<TargetModel>();
+            sourceList.MapList<TargetModel, SourceModel>();
         }
     }
 }

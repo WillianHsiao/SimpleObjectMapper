@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data;
+using System.Threading.Tasks;
 using Geo.Grid.Common.Mapper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ObjectMapper.Common.Exception;
@@ -40,6 +41,14 @@ namespace ObjectMapper.UnitTest
         {
             var dataRow = _sourceDataTable.Rows[0];
             var result = dataRow.MapValue<decimal>("DecimalProp");
+            Assert.AreEqual(99999, result);
+        }
+
+        [TestMethod]
+        public async Task DataTable_單一值_非同步()
+        {
+            var dataRow = _sourceDataTable.Rows[0];
+            var result = await dataRow.MapValueAsync<decimal>("DecimalProp");
             Assert.AreEqual(99999, result);
         }
 
