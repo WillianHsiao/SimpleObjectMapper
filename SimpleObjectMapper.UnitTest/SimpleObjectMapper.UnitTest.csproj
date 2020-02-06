@@ -69,11 +69,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ObjectMapper\SimpleObjectMapper.csproj">
+    <ProjectReference Include="..\SimpleObjectMapper\SimpleObjectMapper.csproj">
       <Project>{ce74e26b-ca4b-40c6-a014-2bdc8dc49652}</Project>
       <Name>SimpleObjectMapper</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ObjectMapper.Common\SimpleObjectMapper.Common.csproj">
+    <ProjectReference Include="..\SimpleObjectMapper.Common\SimpleObjectMapper.Common.csproj">
       <Project>{b6b993c3-89ba-4679-a92c-85de68991df0}</Project>
       <Name>SimpleObjectMapper.Common</Name>
     </ProjectReference>

@@ -46,7 +46,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ObjectMapper.Common\SimpleObjectMapper.Common.csproj">
+    <ProjectReference Include="..\SimpleObjectMapper.Common\SimpleObjectMapper.Common.csproj">
       <Project>{B6B993C3-89BA-4679-A92C-85DE68991DF0}</Project>
       <Name>SimpleObjectMapper.Common</Name>
     </ProjectReference>

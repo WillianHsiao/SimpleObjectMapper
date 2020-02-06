@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F19A882A-06B0-4C1A-A184-B22C01A4ABF5}</ProjectGuid>
+    <ProjectGuid>{CE74E26B-CA4B-40C6-A014-2BDC8DC49652}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SimpleObjectMapper.ModelToModel</RootNamespace>
-    <AssemblyName>SimpleObjectMapper.ModelToModel</AssemblyName>
+    <RootNamespace>SimpleObjectMapper</RootNamespace>
+    <AssemblyName>SimpleObjectMapper</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -41,13 +41,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Mapper.cs" />
+    <Compile Include="DataTableMapper.cs" />
+    <Compile Include="DataReaderMapper.cs" />
+    <Compile Include="ModelMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ObjectMapper.Common\SimpleObjectMapper.Common.csproj">
-      <Project>{B6B993C3-89BA-4679-A92C-85DE68991DF0}</Project>
+    <ProjectReference Include="..\SimpleObjectMapper.Common\SimpleObjectMapper.Common.csproj">
+      <Project>{b6b993c3-89ba-4679-a92c-85de68991df0}</Project>
       <Name>SimpleObjectMapper.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SimpleObjectMapper.DataTableToModel\SimpleObjectMapper.AdoNetToModel.csproj">
+      <Project>{35D0245F-D253-4C6B-B1BF-654C19953942}</Project>
+      <Name>SimpleObjectMapper.AdoNetToModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SimpleObjectMapper.ModelToModel\SimpleObjectMapper.ModelToModel.csproj">
+      <Project>{f19a882a-06b0-4c1a-a184-b22c01a4abf5}</Project>
+      <Name>SimpleObjectMapper.ModelToModel</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
