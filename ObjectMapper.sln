@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectMapper.AdoNetToModel"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectMapper.UnitTest", "ObjectMapper.UnitTest\ObjectMapper.UnitTest.csproj", "{5619E509-D0D8-409F-9948-E1E2C7D0DE5D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geo.Grid.Common.Mapper", "Geo.Grid.Common.Mapper\Geo.Grid.Common.Mapper.csproj", "{CE74E26B-CA4B-40C6-A014-2BDC8DC49652}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectMapper", "Geo.Grid.Common.Mapper\ObjectMapper.csproj", "{CE74E26B-CA4B-40C6-A014-2BDC8DC49652}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

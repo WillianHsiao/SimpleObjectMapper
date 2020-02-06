@@ -69,12 +69,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Geo.Grid.Common.Mapper\Geo.Grid.Common.Mapper.csproj">
+    <ProjectReference Include="..\Geo.Grid.Common.Mapper\ObjectMapper.csproj">
       <Project>{ce74e26b-ca4b-40c6-a014-2bdc8dc49652}</Project>
-      <Name>Geo.Grid.Common.Mapper</Name>
+      <Name>ObjectMapper</Name>
     </ProjectReference>
     <ProjectReference Include="..\ObjectMapper.Common\ObjectMapper.Common.csproj">
-      <Project>{B6B993C3-89BA-4679-A92C-85DE68991DF0}</Project>
+      <Project>{b6b993c3-89ba-4679-a92c-85de68991df0}</Project>
       <Name>ObjectMapper.Common</Name>
     </ProjectReference>
   </ItemGroup>

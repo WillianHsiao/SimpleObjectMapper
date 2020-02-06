@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
-using Geo.Grid.Common.Mapper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ObjectMapper.Common.Exception;
 using ObjectMapper.UnitTest.Helper;

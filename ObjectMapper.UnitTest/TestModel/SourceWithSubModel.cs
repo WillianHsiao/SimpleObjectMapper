@@ -1,6 +1,4 @@
-﻿using Geo.Grid.Common.Mapper;
-
-namespace ObjectMapper.UnitTest.TestModel
+﻿namespace ObjectMapper.UnitTest.TestModel
 {
     public class SourceWithSubModel : SourceModel
     {

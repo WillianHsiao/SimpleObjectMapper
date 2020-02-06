@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using ObjectMapper.ModelToModel;
 
-namespace Geo.Grid.Common.Mapper
+namespace ObjectMapper
 {
     /// <summary>
     /// 物件轉換

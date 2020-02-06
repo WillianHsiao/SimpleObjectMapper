@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Geo.Grid.Common.Mapper;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ObjectMapper.Common.Exception;
 using ObjectMapper.UnitTest.TestModel;
@@ -40,6 +40,19 @@ namespace ObjectMapper.UnitTest
         public void ModelToModel_正常情況()
         {
             var result = source.Map<TargetModel, SourceModel>();
+            Assert.AreEqual(source.DecimalProp, result.DecimalProp);
+            Assert.AreEqual(source.DoubleProp, result.DoubleProp);
+            Assert.AreEqual(source.IntegerProp, result.IntegerProp);
+            Assert.AreEqual(source.LongProp, result.LongProp);
+            Assert.AreEqual(source.BooleanProp, result.BooleanProp);
+            Assert.AreEqual(source.StringProp, result.StringProp);
+            Assert.AreEqual(source.DateTimeProp, result.DateTimeProp);
+        }
+
+        [TestMethod]
+        public async Task ModelToModel_正常情況_非同步()
+        {
+            var result = await source.MapAsync<TargetModel, SourceModel>();
             Assert.AreEqual(source.DecimalProp, result.DecimalProp);
             Assert.AreEqual(source.DoubleProp, result.DoubleProp);
             Assert.AreEqual(source.IntegerProp, result.IntegerProp);

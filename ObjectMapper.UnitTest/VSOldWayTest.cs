@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using Geo.Grid.Common.Mapper;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ObjectMapper.UnitTest.Helper;
 using ObjectMapper.UnitTest.TestModel;
@@ -22,19 +22,21 @@ namespace ObjectMapper.UnitTest
             DateTimeProp = DateTime.Parse("2019/08/02")
         };
 
+        private static List<SourceModel> _sourceList = new List<SourceModel>();
+
         private static DataTable _sourceDataTable = new DataTable();
+
         /// <summary>
         /// 每支單元測試執行前要做的事
         /// </summary>
         [TestInitialize]
         public void StartUp()
         {
-            var sourceList = new List<SourceModel>();
             for (var i = 0; i < 10; i++)
             {
-                sourceList.Add(_source);
+                _sourceList.Add(_source);
             }
-            _sourceDataTable = sourceList.ToDataTable();
+            _sourceDataTable = _sourceList.ToDataTable();
         }
 
         [TestMethod]
@@ -53,6 +55,7 @@ namespace ObjectMapper.UnitTest
             //New Way
             var targetNew = _source.Map<TargetModel, SourceModel>();
 
+            //Result
             Assert.AreEqual(targetOld.StringProp, targetNew.StringProp);
             Assert.AreEqual(targetOld.DecimalProp, targetNew.DecimalProp);
             Assert.AreEqual(targetOld.DoubleProp, targetNew.DoubleProp);
@@ -60,6 +63,44 @@ namespace ObjectMapper.UnitTest
             Assert.AreEqual(targetOld.LongProp, targetNew.LongProp);
             Assert.AreEqual(targetOld.BooleanProp, targetNew.BooleanProp);
             Assert.AreEqual(targetOld.DateTimeProp, targetNew.DateTimeProp);
+        }
+
+        [TestMethod]
+        public void ModelListToModelList()
+        {
+            //Old Way 1
+            var targetOldList1 = new List<TargetModel>();
+            foreach (var source in _sourceList)
+            {
+                var target = new TargetModel();
+
+                target.StringProp = source.StringProp;
+                target.DecimalProp = source.DecimalProp;
+                target.DoubleProp = source.DoubleProp;
+                target.IntegerProp = source.IntegerProp;
+                target.LongProp = source.LongProp;
+                target.BooleanProp = source.BooleanProp;
+                target.DateTimeProp = source.DateTimeProp;
+                targetOldList1.Add(target);
+            }
+            //Old Way 2
+            var targetOldList2 = _sourceList.Select(s => new TargetModel
+            {
+                StringProp = s.StringProp,
+                DecimalProp = s.DecimalProp,
+                DoubleProp = s.DoubleProp,
+                IntegerProp = s.IntegerProp,
+                LongProp = s.LongProp,
+                BooleanProp = s.BooleanProp,
+                DateTimeProp = s.DateTimeProp
+            }).ToList();
+
+            //New Way
+            var targetNewList = _sourceList.MapList<TargetModel, SourceModel>();
+
+            //Result
+            Assert.AreEqual(targetOldList1.Count, targetOldList2.Count);
+            Assert.AreEqual(targetOldList1.Count, targetNewList.Count);
         }
 
         [TestMethod]
@@ -117,6 +158,52 @@ namespace ObjectMapper.UnitTest
             //Result
             Assert.AreEqual(modelListOld.Count, modelListNew1.Count);
             Assert.AreEqual(modelListOld.Count, modelListNew2.Count);
+        }
+
+        [TestMethod]
+        public void DataReaderToSingleValueList()
+        {
+            //Old Way
+            var decimalsOld = new List<decimal>();
+            var dataReaderOld = _sourceDataTable.CreateDataReader();
+            while (dataReaderOld.Read())
+            {
+                decimalsOld.Add(Convert.ToDecimal(dataReaderOld["DecimalProp"]));
+            }
+
+            //New Way
+            var dataReaderNew = _sourceDataTable.CreateDataReader();
+            var decimalsNew = dataReaderNew.MapValueList<decimal>("DecimalProp");
+
+            //Result
+            Assert.AreEqual(decimalsOld.Count, decimalsNew.Count);
+        }
+
+        [TestMethod]
+        public void DataReaderToModelList()
+        {
+            //Old Way
+            var modelListOld = new List<TargetModel>();
+            var dataReaderOld = _sourceDataTable.CreateDataReader();
+            while(dataReaderOld.Read())
+            {
+                var model = new TargetModel();
+                model.StringProp = dataReaderOld["StringProp"].ToString();
+                model.DecimalProp = Convert.ToDecimal(dataReaderOld["DecimalProp"]);
+                model.DoubleProp = Convert.ToDouble(dataReaderOld["DoubleProp"]);
+                model.IntegerProp = Convert.ToInt32(dataReaderOld["IntegerProp"]);
+                model.LongProp = Convert.ToInt64(dataReaderOld["LongProp"]);
+                model.BooleanProp = Convert.ToBoolean(dataReaderOld["BooleanProp"]);
+                model.DateTimeProp = Convert.ToDateTime(dataReaderOld["DateTimeProp"]);
+                modelListOld.Add(model);
+            }
+
+            //New Way
+            var dataReaderNew = _sourceDataTable.CreateDataReader();
+            var modelListNew = dataReaderNew.MapModelList<TargetModel>();
+
+            //Result
+            Assert.AreEqual(modelListOld.Count, modelListNew.Count);
         }
     }
 }

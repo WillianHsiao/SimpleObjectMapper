@@ -3,7 +3,7 @@ using System.Data.Common;
 using System.Threading.Tasks;
 using ObjectMapper.AdoNetToModel;
 
-namespace Geo.Grid.Common.Mapper
+namespace ObjectMapper
 {
     public static class DataReaderMapper
     {
