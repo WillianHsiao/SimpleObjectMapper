@@ -1,2 +1,4 @@
-# ObjectMapper
-Model to model Mapper, DataTable to List mapper, DataReader to List mapper.
+# ObjectMapper - 物件綁定
+- Model to Model map
+- Model List to Model List map
+- Single value to single value
