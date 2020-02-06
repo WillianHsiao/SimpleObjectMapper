@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ObjectMapper.Common.Exception;
-using ObjectMapper.UnitTest.TestModel;
+using SimpleObjectMapper.Common.Exception;
+using SimpleObjectMapper.UnitTest.TestModel;
 
-namespace ObjectMapper.UnitTest
+namespace SimpleObjectMapper.UnitTest
 {
     [TestClass]
     public class ModelToModelTest

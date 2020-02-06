@@ -1,4 +1,4 @@
-﻿namespace ObjectMapper.Common.Exception
+﻿namespace SimpleObjectMapper.Common.Exception
 {
     public class NameMissException : System.Exception
     {

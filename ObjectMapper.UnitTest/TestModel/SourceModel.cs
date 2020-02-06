@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ObjectMapper.UnitTest.TestModel
+namespace SimpleObjectMapper.UnitTest.TestModel
 {
     public class SourceModel
     {

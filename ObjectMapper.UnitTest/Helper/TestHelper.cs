@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 
-namespace ObjectMapper.UnitTest.Helper
+namespace SimpleObjectMapper.UnitTest.Helper
 {
     public static class TestHelper
     {

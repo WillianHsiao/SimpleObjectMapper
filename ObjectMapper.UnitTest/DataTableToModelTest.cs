@@ -2,11 +2,11 @@
 using System.Data;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ObjectMapper.Common.Exception;
-using ObjectMapper.UnitTest.Helper;
-using ObjectMapper.UnitTest.TestModel;
+using SimpleObjectMapper.Common.Exception;
+using SimpleObjectMapper.UnitTest.Helper;
+using SimpleObjectMapper.UnitTest.TestModel;
 
-namespace ObjectMapper.UnitTest
+namespace SimpleObjectMapper.UnitTest
 {
     [TestClass]
     public class DataTableToModelTest

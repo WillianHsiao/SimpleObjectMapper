@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ObjectMapper.Common.Exception
+namespace SimpleObjectMapper.Common.Exception
 {
     public class WrongTypeException : System.Exception
     {

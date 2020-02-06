@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Data.Common;
 using System.Threading.Tasks;
-using ObjectMapper.AdoNetToModel;
+using SimpleObjectMapper.AdoNetToModel;
 
-namespace ObjectMapper
+namespace SimpleObjectMapper
 {
     public static class DataReaderMapper
     {

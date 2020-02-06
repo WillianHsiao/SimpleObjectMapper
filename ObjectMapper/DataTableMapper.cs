@@ -1,9 +1,9 @@
-﻿using ObjectMapper.AdoNetToModel;
+﻿using SimpleObjectMapper.AdoNetToModel;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 
-namespace ObjectMapper
+namespace SimpleObjectMapper
 {
     /// <summary>
     /// AdoNet轉換

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ObjectMapper.UnitTest.TestModel
+namespace SimpleObjectMapper.UnitTest.TestModel
 {
     public class SubModel
     {

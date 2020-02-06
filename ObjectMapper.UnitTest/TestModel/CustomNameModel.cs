@@ -1,6 +1,6 @@
-﻿using ObjectMapper.Common.Attribute;
+﻿using SimpleObjectMapper.Common.Attribute;
 
-namespace ObjectMapper.UnitTest.TestModel
+namespace SimpleObjectMapper.UnitTest.TestModel
 {
     public class CustomNameModel
     {

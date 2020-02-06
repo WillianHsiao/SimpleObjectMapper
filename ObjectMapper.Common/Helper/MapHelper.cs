@@ -3,9 +3,9 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.Common;
 using System.Reflection;
-using ObjectMapper.Common.Exception;
+using SimpleObjectMapper.Common.Exception;
 
-namespace ObjectMapper.Common.Helper
+namespace SimpleObjectMapper.Common.Helper
 {
     public static class MapHelper
     {

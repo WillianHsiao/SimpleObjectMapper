@@ -1,4 +1,4 @@
-﻿namespace ObjectMapper.Common.Attribute
+﻿namespace SimpleObjectMapper.Common.Attribute
 {
     public class MapSettingAttribute : System.Attribute
     {

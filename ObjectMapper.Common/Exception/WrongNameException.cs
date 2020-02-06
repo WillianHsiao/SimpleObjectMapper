@@ -1,4 +1,4 @@
-﻿namespace ObjectMapper.Common.Exception
+﻿namespace SimpleObjectMapper.Common.Exception
 {
     /// <summary>
     /// 名稱設定錯誤例外

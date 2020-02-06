@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ObjectMapper.UnitTest.Helper;
-using ObjectMapper.UnitTest.TestModel;
+using SimpleObjectMapper.UnitTest.Helper;
+using SimpleObjectMapper.UnitTest.TestModel;
 
-namespace ObjectMapper.UnitTest
+namespace SimpleObjectMapper.UnitTest
 {
     [TestClass]
     public class VsOldWayTest

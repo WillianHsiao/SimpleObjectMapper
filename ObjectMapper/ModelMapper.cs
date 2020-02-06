@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ObjectMapper.ModelToModel;
+using SimpleObjectMapper.ModelToModel;
 
-namespace ObjectMapper
+namespace SimpleObjectMapper
 {
     /// <summary>
     /// 物件轉換

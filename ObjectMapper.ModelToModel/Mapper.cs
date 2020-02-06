@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ObjectMapper.Common.Attribute;
+using SimpleObjectMapper.Common.Attribute;
 
-namespace ObjectMapper.ModelToModel
+namespace SimpleObjectMapper.ModelToModel
 {
     /// <summary>
     /// 模組或物件轉換

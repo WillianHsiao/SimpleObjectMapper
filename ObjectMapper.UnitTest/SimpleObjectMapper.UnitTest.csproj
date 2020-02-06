@@ -8,8 +8,8 @@
     <ProjectGuid>{5619E509-D0D8-409F-9948-E1E2C7D0DE5D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ObjectMapper.UnitTest</RootNamespace>
-    <AssemblyName>ObjectMapper.UnitTest</AssemblyName>
+    <RootNamespace>SimpleObjectMapper.UnitTest</RootNamespace>
+    <AssemblyName>SimpleObjectMapper.UnitTest</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -69,13 +69,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Geo.Grid.Common.Mapper\ObjectMapper.csproj">
+    <ProjectReference Include="..\ObjectMapper\SimpleObjectMapper.csproj">
       <Project>{ce74e26b-ca4b-40c6-a014-2bdc8dc49652}</Project>
-      <Name>ObjectMapper</Name>
+      <Name>SimpleObjectMapper</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ObjectMapper.Common\ObjectMapper.Common.csproj">
+    <ProjectReference Include="..\ObjectMapper.Common\SimpleObjectMapper.Common.csproj">
       <Project>{b6b993c3-89ba-4679-a92c-85de68991df0}</Project>
-      <Name>ObjectMapper.Common</Name>
+      <Name>SimpleObjectMapper.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
-using ObjectMapper.Common.Attribute;
-using ObjectMapper.Common.Exception;
-using ObjectMapper.Common.Helper;
+using SimpleObjectMapper.Common.Attribute;
+using SimpleObjectMapper.Common.Exception;
+using SimpleObjectMapper.Common.Helper;
 
-namespace ObjectMapper.AdoNetToModel
+namespace SimpleObjectMapper.AdoNetToModel
 {
     /// <summary>
     /// DataTable轉換
