@@ -1,4 +1,4 @@
-# SimpleObjectMapper - 輕量化物件映射
+# SimpleObjectMapper
 
 A very light model mapper from other model or data table or data reader.
 
