@@ -23,7 +23,7 @@ namespace SimpleObjectMapper.Common.Helper
             {
                 return (T) typeConverter.ConvertFromString(source.ToString());
             }
-            catch (FormatException ex)
+            catch
             {
                 var wrongTypeEx = new WrongTypeException();
                 wrongTypeEx.SourcePropertyType = source.GetType();
@@ -69,7 +69,7 @@ namespace SimpleObjectMapper.Common.Helper
             {
                 return typeConverter.ConvertFromString(dataRow[columnName].ToString());
             }
-            catch (FormatException ex)
+            catch
             {
                 var wrongTypeEx = new WrongTypeException();
                 wrongTypeEx.SourcePropertyType = dataRow[columnName].GetType();
